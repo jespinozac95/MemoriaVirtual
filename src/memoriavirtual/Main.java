@@ -9,13 +9,14 @@ package memoriavirtual;
  *
  * @author Jespi_000
  */
-public class MemoriaVirtual {
+public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        VentanaInicio ventana_inicio = new VentanaInicio();
+        ventana_inicio.setVisible(true);
     }
     
 }
