@@ -18,7 +18,7 @@ import java.util.LinkedList;
 public class LeedorArchivos {
     public static List<String> Leer(String nombre_archivo){
         try {
-            BufferedReader br = new BufferedReader(new FileReader(nombre_archivo+".txt"));
+            BufferedReader br = new BufferedReader(new FileReader(nombre_archivo));
             List<String> sb = new LinkedList();
             String line = br.readLine();
 

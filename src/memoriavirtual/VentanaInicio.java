@@ -6,7 +6,7 @@
 package memoriavirtual;
 
 import java.io.File;
-import javax.swing.JFileChooser;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -15,12 +15,16 @@ import javax.swing.JOptionPane;
  * @author Jespi_000
  */
 public class VentanaInicio extends javax.swing.JFrame {
+    private File ArchivoReferencias;
+    private File ArchivoProcesos;
 
     /**
      * Creates new form VentanaInicio
      */
     public VentanaInicio() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.getRootPane().setDefaultButton(ButtonCargarArchivos);
     }
 
     /**
@@ -56,6 +60,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         LabelSeleccionarArchivoRegistros.setText("A continuación seleccione el archivo de texto de referencias a cargar:");
 
         ButtonArchivoProcesos.setText("Seleccionar archivo de procesos");
+        ButtonArchivoProcesos.setNextFocusableComponent(ButtonArchivoReferencias);
         ButtonArchivoProcesos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonArchivoProcesosActionPerformed(evt);
@@ -63,6 +68,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         });
 
         ButtonArchivoReferencias.setText("Seleccionar archivo de registros");
+        ButtonArchivoReferencias.setNextFocusableComponent(ButtonCargarArchivos);
         ButtonArchivoReferencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonArchivoReferenciasActionPerformed(evt);
@@ -175,16 +181,16 @@ public class VentanaInicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(LabelSeleccionarArchivoProcesos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButtonArchivoProcesos)
-                    .addComponent(LabelArchivoSeleccionadoProcesos))
-                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LabelArchivoSeleccionadoProcesos)
+                    .addComponent(ButtonArchivoProcesos))
+                .addGap(29, 29, 29)
                 .addComponent(LabelSeleccionarArchivoRegistros)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButtonArchivoReferencias)
-                    .addComponent(LabelArchivoSeleccionadoReferencias))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LabelArchivoSeleccionadoReferencias)
+                    .addComponent(ButtonArchivoReferencias))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(ButtonCargarArchivos)
                 .addContainerGap())
         );
@@ -236,12 +242,34 @@ public class VentanaInicio extends javax.swing.JFrame {
         }
         else{
             LabelArchivoSeleccionadoReferencias.setText("Archivo: "+archivo.getName());
-            //LeedorArchivos.Leer(archivo.getAbsolutePath());
+            this.ArchivoReferencias = archivo;
         }
     }//GEN-LAST:event_ButtonArchivoReferenciasActionPerformed
 
     private void ButtonCargarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCargarArchivosActionPerformed
-        // TODO add your handling code here:
+        //Lista de Strings (1 línea por elemento) de los archivos de texto
+        List<String> archivoProcesos;
+        List<String> archivoReferencias;
+        if (LabelArchivoSeleccionadoProcesos.getText().equals("Archivo: ")){
+            JOptionPane.showMessageDialog(new JFrame(),"Debe seleccionar un archivo de texto con extensión .txt para el archivo de procesos.","Ningún archivo cargado",JOptionPane.ERROR_MESSAGE);
+        }
+        else if (LabelArchivoSeleccionadoReferencias.getText().equals("Archivo: ")){
+                JOptionPane.showMessageDialog(new JFrame(),"Debe seleccionar un archivo de texto con extensión .txt para el archivo de referencias.","Ningún archivo cargado",JOptionPane.ERROR_MESSAGE);
+        }
+        else{ //pasó las validaciones
+            archivoProcesos = LeedorArchivos.Leer(ArchivoProcesos.getAbsolutePath());
+            archivoReferencias = LeedorArchivos.Leer(ArchivoReferencias.getAbsolutePath());
+            
+            //Set atributos globales
+            Main.lineas_archivos_procesos = archivoProcesos;
+            Main.lineas_archivos_referencias = archivoReferencias;
+            
+            //Mostrar mensaje de éxito y proceder con el sistema
+            JOptionPane.showMessageDialog(new JFrame(),"Los archivos se cargaron exitosamente.\nEscoja las configuraciones del sistema de memoria virtual.","Éxito",JOptionPane.PLAIN_MESSAGE);
+            this.setVisible(false);
+            VentanaConfiguracion ventana_configuracion = new VentanaConfiguracion();
+            ventana_configuracion.setVisible(true);
+        }
     }//GEN-LAST:event_ButtonCargarArchivosActionPerformed
 
     private void ButtonArchivoProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArchivoProcesosActionPerformed
@@ -253,7 +281,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         }
         else{
             LabelArchivoSeleccionadoProcesos.setText("Archivo: "+archivo.getName());
-            //LeedorArchivos.Leer(archivo.getAbsolutePath());
+            this.ArchivoProcesos = archivo;
         }
     }//GEN-LAST:event_ButtonArchivoProcesosActionPerformed
 

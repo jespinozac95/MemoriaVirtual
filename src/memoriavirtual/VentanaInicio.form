@@ -110,18 +110,18 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="LabelSeleccionarArchivoProcesos" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="ButtonArchivoProcesos" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="LabelArchivoSeleccionadoProcesos" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="LabelArchivoSeleccionadoProcesos" min="-2" max="-2" attributes="0"/>
+                  <Component id="ButtonArchivoProcesos" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               <Component id="LabelSeleccionarArchivoRegistros" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="ButtonArchivoReferencias" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="LabelArchivoSeleccionadoReferencias" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="LabelArchivoSeleccionadoReferencias" min="-2" max="-2" attributes="0"/>
+                  <Component id="ButtonArchivoReferencias" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="34" max="32767" attributes="0"/>
               <Component id="ButtonCargarArchivos" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -147,6 +147,9 @@
     <Component class="javax.swing.JButton" name="ButtonArchivoProcesos">
       <Properties>
         <Property name="text" type="java.lang.String" value="Seleccionar archivo de procesos"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="ButtonArchivoReferencias"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonArchivoProcesosActionPerformed"/>
@@ -155,6 +158,9 @@
     <Component class="javax.swing.JButton" name="ButtonArchivoReferencias">
       <Properties>
         <Property name="text" type="java.lang.String" value="Seleccionar archivo de registros"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="ButtonCargarArchivos"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonArchivoReferenciasActionPerformed"/>

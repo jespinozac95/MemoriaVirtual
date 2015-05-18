@@ -5,15 +5,18 @@
  */
 package memoriavirtual;
 
+import java.util.List;
+
+
 /**
  *
  * @author Jespi_000
  */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
+    public static List<String> lineas_archivos_procesos;
+    public static List<String> lineas_archivos_referencias;
+    
     public static void main(String[] args) {
         VentanaInicio ventana_inicio = new VentanaInicio();
         ventana_inicio.setVisible(true);
