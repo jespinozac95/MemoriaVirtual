@@ -18,5 +18,12 @@ public class Proceso {
     public int cantPartes;
     public int[][] UMF = new int[cantPartes][3]; //ubicacion_memoriaF
     public int[][] UMV = new int[cantPartes][3]; //ubicacion_memoriaV
+
+    public Proceso(String nombre, int prioridad, int tamano) {
+        this.nombre = nombre;
+        this.prioridad = prioridad;
+        this.tamano = tamano;
+        //this.identificador = lista_Procesos.length();
+    }
     
 }
