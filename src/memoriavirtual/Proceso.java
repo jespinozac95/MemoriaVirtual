@@ -1,0 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package memoriavirtual;
+
+/**
+ *
+ * @author Adrian
+ */
+public class Proceso {
+    
+    public int identificador;
+    public String nombre;
+    public int prioridad;
+    public int tamano;
+    public int cantPartes;
+    public int[][] UMF = new int[cantPartes][3]; //ubicacion_memoriaF
+    public int[][] UMV = new int[cantPartes][3]; //ubicacion_memoriaV
+    
+}
