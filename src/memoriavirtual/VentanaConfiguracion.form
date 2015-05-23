@@ -114,19 +114,6 @@
                               <Component id="ProcessSelectionPolicyComboBox" min="-2" pref="131" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="FieldTamanoPaginas" min="-2" pref="29" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="FieldCantidadPaginas" min="-2" pref="29" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="FieldCantidadReferenciasPorIteracion" min="-2" pref="29" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -138,8 +125,21 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="ResidentSetManagementComboBox" min="-2" pref="131" max="-2" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="FieldTamanoMemFisica" min="-2" pref="29" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="FieldCantidadBitsReferencias" min="-2" pref="29" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="FieldCantidadReferenciasPorIteracion" min="-2" pref="29" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -186,11 +186,11 @@
                   <Component id="ResidentSetManagementComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="PanelWorkingSetFijo" min="-2" max="-2" attributes="0"/>
-                  <Component id="PanelWorkingSetVariable" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="PanelWorkingSetFijo" max="32767" attributes="0"/>
+                  <Component id="PanelWorkingSetVariable" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="ReplacementScopeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -212,9 +212,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="FieldTamanoPaginas" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="FieldTamanoMemFisica" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="FieldCantidadPaginas" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="FieldCantidadBitsReferencias" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="FieldCantidadReferenciasPorIteracion" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -267,6 +267,7 @@
         <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="null" type="code"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Especifica cu&#xe1;ndo cargar las p&#xe1;ginas de un proceso a memoria f&#xed;sica (observe ayuda F1)."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FetchPolicyComboBoxActionPerformed"/>
@@ -288,6 +289,7 @@
         <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="null" type="code"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Especifica si las p&#xe1;ginas de un proceso ocupar&#xe1;n el primer lugar disponible o el siguiente despu&#xe9;s del &#xfa;ltimo frame insertado."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PlacementPolicyComboBoxActionPerformed"/>
@@ -311,6 +313,7 @@
         <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="null" type="code"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Qu&#xe9; debe cumplir una p&#xe1;gina para ser reemplazada al darse el caso.&#xa;(observar ayuda F1 para conocer qu&#xe9; pasa con cada algoritmo)."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ReplacementPolicyComboBoxActionPerformed"/>
@@ -332,6 +335,7 @@
         <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="null" type="code"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Especifica si un proceso podr&#xe1; ocupar solamente un n&#xfa;mero fijo de frames en memoria f&#xed;sica o este ir&#xe1; en aumento."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ResidentSetManagementComboBoxActionPerformed"/>
@@ -352,17 +356,10 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="FieldTamanoMaximo" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="CrecePorBomboBox" pref="86" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace pref="7" max="32767" attributes="0"/>
                   <Component id="FieldCrecimientoPorIteracion" min="-2" pref="31" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -372,27 +369,17 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="CrecePorBomboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="FieldTamanoMaximo" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="FieldTamanoInicial" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="FieldCrecimientoPorIteracion" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel9">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Crece por:"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tama&#xf1;o m&#xe1;ximo: "/>
@@ -403,32 +390,28 @@
             <Property name="text" type="java.lang.String" value="Tama&#xf1;o inicial: "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="CrecePorBomboBox">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
-                <StringItem index="0" value="Referencia"/>
-                <StringItem index="1" value="Remplazo"/>
-              </StringArray>
-            </Property>
-            <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="null" type="code"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel12">
           <Properties>
             <Property name="text" type="java.lang.String" value="Crecimiento por iteraci&#xf3;n:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="FieldCrecimientoPorIteracion">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Cu&#xe1;ntos frames en memoria f&#xed;sica se le asignar&#xe1;n extra al proceso despu&#xe9;s de un reemplazo."/>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FieldCrecimientoPorIteracionActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="FieldTamanoMaximo">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="N&#xfa;mero de frames m&#xe1;ximo que podr&#xe1; utilizar un proceso en memoria f&#xed;sica."/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="FieldTamanoInicial">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="N&#xfa;mero de frames en memoria f&#xed;sica que se le asignar&#xe1; al proceso al crearse."/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -459,6 +442,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="FieldTamanoFijo">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="N&#xfa;mero fijo de frames que utilizar&#xe1; el proceso en memoria f&#xed;sica."/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
@@ -478,6 +464,7 @@
         <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="null" type="code"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Define si la p&#xe1;gina de un proceso puede reemplazar a una p&#xe1;gina de otro en memoria f&#xed;sica (observe ayuda F1)."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ReplacementScopeComboBoxActionPerformed"/>
@@ -504,6 +491,7 @@
         <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="null" type="code"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Cu&#xe1;ndo actualizar en memoria virtual las p&#xe1;ginas escritas en memoria f&#xed;sica."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CleaningPolicyComboBoxActionPerformed"/>
@@ -515,6 +503,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="FieldGradoDeMultiprogramacion">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Corresponde al n&#xfa;mero m&#xe1;ximo de procesos que se pueden cargar en memoria virtual simult&#xe1;neamente."/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel16">
       <Properties>
@@ -532,6 +523,7 @@
         <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="null" type="code"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="No todos los procesos se pueden cargar en memoria, esta pol&#xed;tica filtra los procesos que podr&#xe1;n ser cargados."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProcessSelectionPolicyComboBoxActionPerformed"/>
@@ -549,17 +541,23 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel17">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tama&#xf1;o de p&#xe1;ginas:"/>
+        <Property name="text" type="java.lang.String" value="Tama&#xf1;o de Memoria F&#xed;sica:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="FieldTamanoPaginas">
+    <Component class="javax.swing.JTextField" name="FieldTamanoMemFisica">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="El n&#xfa;mero ingresado aqu&#xed; debe ser entre 1 y 16, pues la memoria f&#xed;sica (RAM) siempre tiene un tama&#xf1;o definido y menor a la cantidad de memoria virtual."/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel18">
       <Properties>
-        <Property name="text" type="java.lang.String" value="K         Cantidad de p&#xe1;ginas:"/>
+        <Property name="text" type="java.lang.String" value="MB         Cantidad de bits de las referencias:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="FieldCantidadPaginas">
+    <Component class="javax.swing.JTextField" name="FieldCantidadBitsReferencias">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="El offset (tama&#xf1;o de cada p&#xe1;gina de la memoria virtual) ser&#xe1; siempre de 1MB, por lo que el n&#xfa;mero a ingresar debe estar entre 24 y 27.&#xa;(Observar ayuda F1)."/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel19">
       <Properties>
@@ -567,6 +565,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="FieldCantidadReferenciasPorIteracion">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="El n&#xfa;mero ingresado en este campo especificar&#xe1; el n&#xfa;mero de referencias le&#xed;das antes de mostrar el estado de las memorias (f&#xed;sica y virtual) y el log de eventos."/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

@@ -48,10 +48,8 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         ResidentSetManagementComboBox = new javax.swing.JComboBox();
         PanelWorkingSetVariable = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        CrecePorBomboBox = new javax.swing.JComboBox();
         jLabel12 = new javax.swing.JLabel();
         FieldCrecimientoPorIteracion = new javax.swing.JTextField();
         FieldTamanoMaximo = new javax.swing.JTextField();
@@ -70,9 +68,9 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         BotonContinuar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel17 = new javax.swing.JLabel();
-        FieldTamanoPaginas = new javax.swing.JTextField();
+        FieldTamanoMemFisica = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        FieldCantidadPaginas = new javax.swing.JTextField();
+        FieldCantidadBitsReferencias = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         FieldCantidadReferenciasPorIteracion = new javax.swing.JTextField();
         menu = new javax.swing.JMenuBar();
@@ -96,6 +94,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
         FetchPolicyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Demand", "Prepaging" }));
         FetchPolicyComboBox.setSelectedItem(null);
+        FetchPolicyComboBox.setToolTipText("Especifica cuándo cargar las páginas de un proceso a memoria física (observe ayuda F1).");
         FetchPolicyComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FetchPolicyComboBoxActionPerformed(evt);
@@ -106,6 +105,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
         PlacementPolicyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "First available", "Next available" }));
         PlacementPolicyComboBox.setSelectedItem(null);
+        PlacementPolicyComboBox.setToolTipText("Especifica si las páginas de un proceso ocuparán el primer lugar disponible o el siguiente después del último frame insertado.");
         PlacementPolicyComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PlacementPolicyComboBoxActionPerformed(evt);
@@ -116,6 +116,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
         ReplacementPolicyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Least Recently Used", "Most Recently Used", "First In - First Out", "Clock" }));
         ReplacementPolicyComboBox.setSelectedItem(null);
+        ReplacementPolicyComboBox.setToolTipText("Qué debe cumplir una página para ser reemplazada al darse el caso.\n(observar ayuda F1 para conocer qué pasa con cada algoritmo).");
         ReplacementPolicyComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ReplacementPolicyComboBoxActionPerformed(evt);
@@ -126,28 +127,29 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
         ResidentSetManagementComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tamaño Variable", "Tamaño Fijo" }));
         ResidentSetManagementComboBox.setSelectedItem(null);
+        ResidentSetManagementComboBox.setToolTipText("Especifica si un proceso podrá ocupar solamente un número fijo de frames en memoria física o este irá en aumento.");
         ResidentSetManagementComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ResidentSetManagementComboBoxActionPerformed(evt);
             }
         });
 
-        jLabel9.setText("Crece por:");
-
         jLabel10.setText("Tamaño máximo: ");
 
         jLabel11.setText("Tamaño inicial: ");
 
-        CrecePorBomboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Referencia", "Remplazo" }));
-        CrecePorBomboBox.setSelectedItem(null);
-
         jLabel12.setText("Crecimiento por iteración:");
 
+        FieldCrecimientoPorIteracion.setToolTipText("Cuántos frames en memoria física se le asignarán extra al proceso después de un reemplazo.");
         FieldCrecimientoPorIteracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FieldCrecimientoPorIteracionActionPerformed(evt);
             }
         });
+
+        FieldTamanoMaximo.setToolTipText("Número de frames máximo que podrá utilizar un proceso en memoria física.");
+
+        FieldTamanoInicial.setToolTipText("Número de frames en memoria física que se le asignará al proceso al crearse.");
 
         javax.swing.GroupLayout PanelWorkingSetVariableLayout = new javax.swing.GroupLayout(PanelWorkingSetVariable);
         PanelWorkingSetVariable.setLayout(PanelWorkingSetVariableLayout);
@@ -163,16 +165,10 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(FieldTamanoMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CrecePorBomboBox, 0, 86, Short.MAX_VALUE)
-                .addGap(24, 24, 24))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelWorkingSetVariableLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(FieldCrecimientoPorIteracion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78))
+                .addContainerGap())
         );
         PanelWorkingSetVariableLayout.setVerticalGroup(
             PanelWorkingSetVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,16 +176,14 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 .addGroup(PanelWorkingSetVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jLabel10)
-                    .addComponent(jLabel9)
-                    .addComponent(CrecePorBomboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FieldTamanoMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(FieldTamanoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanelWorkingSetVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(FieldTamanoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(FieldCrecimientoPorIteracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        FieldTamanoFijo.setToolTipText("Número fijo de frames que utilizará el proceso en memoria física.");
 
         jLabel8.setText("Tamaño:");
 
@@ -214,6 +208,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
         ReplacementScopeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Global", "Local" }));
         ReplacementScopeComboBox.setSelectedItem(null);
+        ReplacementScopeComboBox.setToolTipText("Define si la página de un proceso puede reemplazar a una página de otro en memoria física (observe ayuda F1).");
         ReplacementScopeComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ReplacementScopeComboBoxActionPerformed(evt);
@@ -226,6 +221,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
         CleaningPolicyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Demand", "Pre-cleaning" }));
         CleaningPolicyComboBox.setSelectedItem(null);
+        CleaningPolicyComboBox.setToolTipText("Cuándo actualizar en memoria virtual las páginas escritas en memoria física.");
         CleaningPolicyComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CleaningPolicyComboBoxActionPerformed(evt);
@@ -234,10 +230,13 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
         jLabel15.setText("Seleccione el grado de multiprogramación: ");
 
+        FieldGradoDeMultiprogramacion.setToolTipText("Corresponde al número máximo de procesos que se pueden cargar en memoria virtual simultáneamente.");
+
         jLabel16.setText("Seleccione la política de selección de procesos: ");
 
         ProcessSelectionPolicyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "First In - First Out", "Prioridad" }));
         ProcessSelectionPolicyComboBox.setSelectedItem(null);
+        ProcessSelectionPolicyComboBox.setToolTipText("No todos los procesos se pueden cargar en memoria, esta política filtra los procesos que podrán ser cargados.");
         ProcessSelectionPolicyComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ProcessSelectionPolicyComboBoxActionPerformed(evt);
@@ -251,11 +250,17 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             }
         });
 
-        jLabel17.setText("Tamaño de páginas:");
+        jLabel17.setText("Tamaño de Memoria Física:");
 
-        jLabel18.setText("K         Cantidad de páginas:");
+        FieldTamanoMemFisica.setToolTipText("El número ingresado aquí debe ser entre 1 y 16, pues la memoria física (RAM) siempre tiene un tamaño definido y menor a la cantidad de memoria virtual.");
+
+        jLabel18.setText("MB         Cantidad de bits de las referencias:");
+
+        FieldCantidadBitsReferencias.setToolTipText("El offset (tamaño de cada página de la memoria virtual) será siempre de 1MB, por lo que el número a ingresar debe estar entre 24 y 27.\n(Observar ayuda F1).");
 
         jLabel19.setText("Cantidad de referencias por iteración: ");
+
+        FieldCantidadReferenciasPorIteracion.setToolTipText("El número ingresado en este campo especificará el número de referencias leídas antes de mostrar el estado de las memorias (física y virtual) y el log de eventos.");
 
         Ayuda.setText("Ayuda");
         Ayuda.addMenuListener(new javax.swing.event.MenuListener() {
@@ -361,18 +366,6 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(ProcessSelectionPolicyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(FieldTamanoPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel18)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(FieldCantidadPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel19)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(FieldCantidadReferenciasPorIteracion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(jLabel6)
@@ -380,8 +373,20 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                                         .addComponent(ReplacementPolicyComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(jLabel7))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ResidentSetManagementComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(ResidentSetManagementComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(FieldTamanoMemFisica, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(FieldCantidadBitsReferencias, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel19)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(FieldCantidadReferenciasPorIteracion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 6, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -418,9 +423,9 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(ResidentSetManagementComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PanelWorkingSetFijo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PanelWorkingSetVariable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PanelWorkingSetFijo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelWorkingSetVariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
@@ -440,9 +445,9 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(FieldTamanoPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FieldTamanoMemFisica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
-                    .addComponent(FieldCantidadPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FieldCantidadBitsReferencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19)
                     .addComponent(FieldCantidadReferenciasPorIteracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -453,7 +458,8 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneralActionPerformed
-
+        AyudaParaConfiguracion help = new AyudaParaConfiguracion();
+        help.setVisible(true);
     }//GEN-LAST:event_GeneralActionPerformed
 
     private void AyudaMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_AyudaMenuSelected
@@ -528,7 +534,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     }//GEN-LAST:event_ProcessSelectionPolicyComboBoxActionPerformed
 
     private void BotonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonContinuarActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_BotonContinuarActionPerformed
 
     /**
@@ -570,17 +576,16 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     private javax.swing.JMenu Ayuda;
     private javax.swing.JButton BotonContinuar;
     private javax.swing.JComboBox CleaningPolicyComboBox;
-    private javax.swing.JComboBox CrecePorBomboBox;
     private javax.swing.JMenu Creditos;
     private javax.swing.JComboBox FetchPolicyComboBox;
-    private javax.swing.JTextField FieldCantidadPaginas;
+    private javax.swing.JTextField FieldCantidadBitsReferencias;
     private javax.swing.JTextField FieldCantidadReferenciasPorIteracion;
     private javax.swing.JTextField FieldCrecimientoPorIteracion;
     private javax.swing.JTextField FieldGradoDeMultiprogramacion;
     private javax.swing.JTextField FieldTamanoFijo;
     private javax.swing.JTextField FieldTamanoInicial;
     private javax.swing.JTextField FieldTamanoMaximo;
-    private javax.swing.JTextField FieldTamanoPaginas;
+    private javax.swing.JTextField FieldTamanoMemFisica;
     private javax.swing.JMenuItem General;
     private javax.swing.JLabel LBienvenido;
     private javax.swing.JPanel PanelWorkingSetFijo;
@@ -608,7 +613,6 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JMenuBar menu;

@@ -60,6 +60,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         LabelSeleccionarArchivoRegistros.setText("A continuación seleccione el archivo de texto de referencias a cargar:");
 
         ButtonArchivoProcesos.setText("Seleccionar archivo de procesos");
+        ButtonArchivoProcesos.setToolTipText("Cargar el archivo de texto de PROCESOS.");
         ButtonArchivoProcesos.setNextFocusableComponent(ButtonArchivoReferencias);
         ButtonArchivoProcesos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,6 +69,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         });
 
         ButtonArchivoReferencias.setText("Seleccionar archivo de registros");
+        ButtonArchivoReferencias.setToolTipText("Cargar el archivo de texto de REFERENCIAS.");
         ButtonArchivoReferencias.setNextFocusableComponent(ButtonCargarArchivos);
         ButtonArchivoReferencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,7 +201,9 @@ public class VentanaInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneralActionPerformed
-        
+        JOptionPane.showMessageDialog(new JFrame(),"¡Bienvenido!\n\nSe necesita dos archivos para ejecutar correctamente el programa (estos archivos luego se podrán cambiar, si así lo desea):\n\n   - Archivo de procesos: contiene la información de los procesos a manejarse en el sistema simulador.\n     Cada línea del archivo de tener la siguiente información de cada proceso individual:\n"
+                + "         Número del proceso (ID), Nombre del proceso, Tamaño en KB, Bit de bloqueo(0 o 1)[, Prioridad de ejecución]\n   *Parámetro en [] es opcional\n\n   - Archivo de referencias: contiene las referencias a las páginas de los procesos que simulará el programa.\n     Cada línea del archivo de tener la siguiente información de cada referencia individual:\n"
+                + "         Número del proceso (ID) a referenciar, Cantidad de KB del proceso que se desean referenciar, Identificador de acción (w: escritura, r: lectura).","Ayuda - Inserción de archivos de texto",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_GeneralActionPerformed
 
     private void AyudaMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_AyudaMenuSelected
