@@ -357,7 +357,7 @@
                   <Component id="FieldTamanoMaximo" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="7" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="FieldCrecimientoPorIteracion" min="-2" pref="31" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -392,7 +392,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel12">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Crecimiento por iteraci&#xf3;n:"/>
+            <Property name="text" type="java.lang.String" value="Crecimiento por reemplazo:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="FieldCrecimientoPorIteracion">

@@ -5,6 +5,10 @@
  */
 package memoriavirtual;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -138,7 +142,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
         jLabel11.setText("Tamaño inicial: ");
 
-        jLabel12.setText("Crecimiento por iteración:");
+        jLabel12.setText("Crecimiento por reemplazo:");
 
         FieldCrecimientoPorIteracion.setToolTipText("Cuántos frames en memoria física se le asignarán extra al proceso después de un reemplazo.");
         FieldCrecimientoPorIteracion.addActionListener(new java.awt.event.ActionListener() {
@@ -166,7 +170,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 .addComponent(FieldTamanoMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(FieldCrecimientoPorIteracion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -534,7 +538,15 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     }//GEN-LAST:event_ProcessSelectionPolicyComboBoxActionPerformed
 
     private void BotonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonContinuarActionPerformed
-        
+        //Obtener los valores de configuración
+        if (TodosTienenValores()){
+            //Validar valores de configuración que no son vacíos
+            
+            //Asignar los valores de Main.ListaDeAtributos a cada atributo de configuración
+        }
+        else{
+            //Do nothing, ya se hizo en los métodos de validación
+        }
     }//GEN-LAST:event_BotonContinuarActionPerformed
 
     /**
@@ -617,4 +629,50 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JMenuBar menu;
     // End of variables declaration//GEN-END:variables
+
+    private boolean TodosTienenValores() {
+        try{
+            Map diccionario = new HashMap();
+            diccionario.put("Fetch Policy", FetchPolicyComboBox.getSelectedItem());
+            diccionario.put("Placement Policy", PlacementPolicyComboBox.getSelectedItem());
+            diccionario.put("Replacement Policy", ReplacementPolicyComboBox.getSelectedItem());
+            diccionario.put("Resident Set Management", ResidentSetManagementComboBox.getSelectedItem());
+            if (!(ResidentSetManagementComboBox.getSelectedItem()==null)){
+                if(ResidentSetManagementComboBox.getSelectedItem().toString().equals("Tamaño Fijo")){
+                    diccionario.put("Tamaño Fijo", FieldTamanoFijo.getText());
+                }
+                else{
+                    diccionario.put("Tamaño Inicial (Variable)", FieldTamanoInicial.getText());
+                    diccionario.put("Tamaño Maximo (Variable)", FieldTamanoInicial.getText());
+                    diccionario.put("Tamaño Crecimiento Por Iteracion (Variable)", FieldCrecimientoPorIteracion.getText());
+                }
+            }
+            diccionario.put("Replacement Scope", ReplacementScopeComboBox.getSelectedItem());
+            diccionario.put("Cleaning Policy", CleaningPolicyComboBox.getSelectedItem());
+            diccionario.put("Grado de Multiprogramación", FieldGradoDeMultiprogramacion.getText());
+            diccionario.put("Política de Selección de Procesos", ProcessSelectionPolicyComboBox.getSelectedItem());
+            diccionario.put("Tamaño de Memoria Física", FieldTamanoMemFisica.getText());
+            diccionario.put("Bits de las Referencias", FieldCantidadBitsReferencias.getText());
+            diccionario.put("Referencias por Iteración", FieldCantidadReferenciasPorIteracion.getText());
+            
+            if (diccionario.containsValue(null)){
+                String valores_nulos = "";
+                for (Object key: diccionario.keySet()){
+                    if ((diccionario.get(key)==null) || (diccionario.get(key).equals(""))){
+                        valores_nulos = valores_nulos + "   - " + key.toString() + "\n";
+                    }
+                }
+                JOptionPane.showMessageDialog(new JFrame(),"Los siguientes valores están vacíos y debe llenarlos para continuar: \n"+valores_nulos,"Advertencia",JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+            else{
+                Main.ListaDeAtributos = diccionario;
+                return true;
+            }
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(new JFrame(),"Error en la obtención de datos.","Error",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
 }

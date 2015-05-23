@@ -5,11 +5,9 @@
  */
 package memoriavirtual;
 
-import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
+
 
 /**
  *
@@ -139,15 +137,13 @@ public class AyudaParaConfiguracion extends javax.swing.JFrame {
                         "	* Cuando no hay frames libres en memoria física, se habilitan local y global.\n\n" +
                         "	Local: sólo se podrán sustituir los frames del proceso.\n" +
                         "	Global: * No compatible con el working set fixed.\n" +
-                        "		Específico: escoger entre los procesos los que se pueden reemplazar.\n" +
-                        "		General: se puede reemplazar cualquier página de cualquier proceso.");
+                        "		Se toma en cuenta el bit de bloqueo en los procesos del .txt");
                 break;
             case "Resident Set Management":
                 TextArea.setText("RESIDENT / WORKING SET MANAGEMENT: \n\n"
                         +"Define cómo se asignará las páginas de los procesos en uso en los frames de la memoria física.\n"+ 
                         "       Fixed: cierto número de frames fijos para cada proceso en memoria física.\n" +
-                        "	Variable: se establece el número de frames que se le asignará a un proceso en su inicio, el número máximo de frames que podrá utilizar y la cantidad que crece por cada referencia a él. Puede causar fragmentación del proceso en el disco si hay procesos que se asignaron después de él.\n" +
-                        "               El aumento se dá después de la referencia o el reemplazo al proceso.");
+                        "	Variable: se establece el número de frames que se le asignará a un proceso en su inicio, el número máximo de frames que podrá utilizar y la cantidad que crece por cada reemplazo. Puede causar fragmentación del proceso en el disco si hay procesos que se asignaron después de él.\n");
                 break;
             case "Cleaning Policy":
                 TextArea.setText("CLEANING POLICY: \n\n"
