@@ -17,8 +17,8 @@ public class Main {
     public static List<String> lineas_archivos_procesos;
     public static List<String> lineas_archivos_referencias;
     public static List<Proceso> lista_Procesos;
-    public Frame[][] memoria_fisica = new Frame[10][10];
-    public Frame[][] memoria_vitual = new Frame[50][10];
+    public static Frame[][] memoria_fisica = new Frame[10][10];
+    public static Frame[][] memoria_vitual = new Frame[50][10];
     
     public static void main(String[] args) {
         VentanaInicio ventana_inicio = new VentanaInicio();
