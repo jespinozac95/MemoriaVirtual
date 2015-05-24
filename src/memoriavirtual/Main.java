@@ -22,10 +22,10 @@ public class Main {
     public static Frame[][] memoria_virtual = new Frame[50][10];
     
     //Atributos obtenidos de la ventana de configuración
-    public static boolean fetch_demand; //true si es demand, false si es prepaging
-    public static boolean placement_first_available; //true si es first available, false si es next availablew
+    public static boolean fetch_demand = false; //true si es demand, false si es prepaging
+    public static boolean placement_first_available = false; //true si es first available, false si es next availablew
     public static String replacement_policy; //LRU,FIFO,MRU o Clock
-    public static boolean resident_set_management_fixed; //true si es fixed, false si es variable
+    public static boolean resident_set_management_fixed = false; //true si es fixed, false si es variable
         //FIXED
     public static int tamaño_fijo; 
         //VARIABLE
@@ -33,10 +33,10 @@ public class Main {
     public static int tamaño_maximo;
     public static int crecimiento_por_reemplazo;
     
-    public static boolean replacement_scope_global; //true si es global, false si es local
-    public static boolean cleaning_demand; //true si es demand, false si es precleaning
+    public static boolean replacement_scope_global = false; //true si es global, false si es local
+    public static boolean cleaning_demand = false; //true si es demand, false si es precleaning
     public static int grado_de_multiprogramacion;
-    public static boolean seleccion_de_procesos_FIFO; //true si es FIFO, false si es Prioridad
+    public static boolean seleccion_de_procesos_FIFO = false; //true si es FIFO, false si es Prioridad
     
     //Otros atributos (tamaño de memorias y # de referencias por iteracion)
     public static int tamaño_memoria_fisica; //1-16

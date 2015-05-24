@@ -541,8 +541,58 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         //Obtener los valores de configuración
         if (TodosTienenValores()){
             //Validar valores de configuración que no son vacíos
-            
-            //Asignar los valores de Main.ListaDeAtributos a cada atributo de configuración
+            if (Validar(Main.ListaDeAtributos)){
+                //Asignar los valores de Main.ListaDeAtributos a los atributos de configuración que no han sido enlazados (los de comboBox)
+                String fetch = (String) Main.ListaDeAtributos.get("Fetch Policy");
+                String placement = (String) Main.ListaDeAtributos.get("Placement Policy");
+                String replacement = (String) Main.ListaDeAtributos.get("Replacement Policy");
+                String residentSet = (String) Main.ListaDeAtributos.get("Resident Set Management");
+                String replacementScope = (String) Main.ListaDeAtributos.get("Replacement Scope");
+                String cleaning = (String) Main.ListaDeAtributos.get("Cleaning Policy");
+                String seleccionProcesos = (String) Main.ListaDeAtributos.get("Política de Selección de Procesos");
+                
+                if (fetch.equals("Demand")){
+                    Main.fetch_demand = true;
+                }
+                if (placement.equals("First available")){
+                    Main.placement_first_available = true;
+                }
+                switch (replacement){
+                    case "Least Recently Used":
+                        Main.replacement_policy = "LRU";
+                        break;
+                    case "Most Recently Used":
+                        Main.replacement_policy = "MRU";
+                        break;
+                    case "Clock":
+                        Main.replacement_policy = "Clock";
+                        break;
+                    case "First In - First Out":
+                        Main.replacement_policy = "FIFO";
+                        break;    
+                }
+                if (residentSet.equals("Tamaño Fijo")){
+                    Main.resident_set_management_fixed = true;
+                }
+                if (replacementScope.endsWith("Global")){
+                    Main.replacement_scope_global = true;
+                }
+                if (cleaning.equals("Demand")){
+                    Main.cleaning_demand = true;
+                }
+                if (seleccionProcesos.equals("First In - First Out")){
+                    Main.seleccion_de_procesos_FIFO = true;
+                }
+                
+                //Listas las asignaciones. Ahora --> siguiente GUI
+                JOptionPane.showMessageDialog(new JFrame(),"Los resultados de cargar los procesos y las "+Main.numero_referencias_por_iteracion+" primeras referencias son los siguientes.","Éxito",JOptionPane.PLAIN_MESSAGE);
+                FuncionamientoGUI fGUI = new FuncionamientoGUI();
+                this.setVisible(false);
+                fGUI.setVisible(true);
+            }
+            else{
+                //Do nothing, ya se hizo en los métodos de validación
+            }
         }
         else{
             //Do nothing, ya se hizo en los métodos de validación
@@ -674,5 +724,115 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(new JFrame(),"Error en la obtención de datos.","Error",JOptionPane.ERROR_MESSAGE);
             return false;
         }
+    }
+
+    private boolean Validar(Map ListaDeAtributos) {
+        //Gets para validar variables
+        
+        String tamanoFijo = null;
+        String tamanoInicial = null;
+        String tamanoMaximo = null;
+        String tamanoCrecimiento = null;
+        
+        if(ListaDeAtributos.get("Resident Set Management").toString().equals("Tamaño Fijo")){
+            tamanoFijo = (String) ListaDeAtributos.get("Tamaño Fijo");
+        }
+        else{
+            tamanoInicial = (String) ListaDeAtributos.get("Tamaño Inicial (Variable)");
+            tamanoMaximo = (String) ListaDeAtributos.get("Tamaño Maximo (Variable)");
+            tamanoCrecimiento = (String) ListaDeAtributos.get("Tamaño Crecimiento Por Iteracion (Variable)");
+        }
+        
+        String gradoMultiprogramacion;
+        String tamanoMemoriaFisica;
+        String bitsReferencia;
+        String numeroReferenciasPorIteracion;
+        
+        gradoMultiprogramacion = (String) ListaDeAtributos.get("Grado de Multiprogramación");
+        tamanoMemoriaFisica = (String) ListaDeAtributos.get("Tamaño de Memoria Física");
+        bitsReferencia = (String) ListaDeAtributos.get("Bits de las Referencias");
+        numeroReferenciasPorIteracion = (String) ListaDeAtributos.get("Referencias por Iteración");
+        
+        //Validacion
+        try{
+            int gMultiprog = Integer.parseInt(gradoMultiprogramacion);
+            int tMemFisica = Integer.parseInt(tamanoMemoriaFisica);
+            int bReferencia = Integer.parseInt(bitsReferencia);
+            int nReferencias = Integer.parseInt(numeroReferenciasPorIteracion);
+            
+            if(ListaDeAtributos.get("Resident Set Management").toString().equals("Tamaño Fijo")){
+                int tF = Integer.parseInt(tamanoFijo);
+                if ((tF <= 0) || (tF < tMemFisica)){
+                    MensajeError("El número ingresado en el campo de tamaño fijo debe ser mayor a 0 y menor a la memoria física.","Error de entrada");
+                    return false;
+                }
+                else{
+                    Main.tamaño_fijo = tF;
+                }
+            }
+            else{
+                int tInicial = Integer.parseInt(tamanoInicial);
+                int tMaximo = Integer.parseInt(tamanoMaximo);
+                int tCrecimiento = Integer.parseInt(tamanoCrecimiento);
+                if ((tInicial <=0) || (tInicial > tMaximo) || (tInicial < tMemFisica)){
+                    MensajeError("El número ingresado en el campo de tamaño inicial debe ser mayor a 0, y menor al tamaño máximo ingresado y a la memoria física.","Error de entrada");
+                    return false;
+                }
+                else{
+                    if (tMaximo <=0){
+                        MensajeError("El número ingresado en el campo del tamaño máximo debe ser mayor a 0.","Error de entrada");
+                        return false;
+                    }
+                    else{
+                        if (tCrecimiento <=0){
+                            MensajeError("El número ingresado en el campo del crecimiento por referencia debe ser mayor a 0.","Error de entrada");
+                            return false;
+                        }
+                        else{
+                            Main.tamaño_inicial = tInicial;
+                            Main.tamaño_maximo = tMaximo;
+                            Main.crecimiento_por_reemplazo = tCrecimiento;
+                        }
+                    }
+                }    
+            }
+            if (gMultiprog <=0){
+                MensajeError("El número ingresado en el campo del grado de multiprogramación debe ser mayor a 0.","Error de entrada");
+                return false;
+            }
+            else{
+                if ((tMemFisica < 1) || (tMemFisica > 16)){
+                    MensajeError("El número ingresado en el campo de memoria física debe estar entre 1 y 16.","Error de entrada");
+                    return false;
+                }
+                else{
+                    if ((bReferencia < 24) || (bReferencia > 27)){
+                        MensajeError("El número ingresado como número bits de referencia debe estar entre 24 y 27.","Error de entrada");
+                        return false;
+                    }
+                    else{
+                        if (nReferencias <=0){
+                            MensajeError("El número ingresado en el campo de cantidad de referencias por iteración debe ser mayor a 0.","Error de entrada");
+                            return false;
+                        }
+                        else{
+                            Main.grado_de_multiprogramacion = gMultiprog;
+                            Main.tamaño_memoria_fisica = tMemFisica;
+                            Main.bits_de_referencias = bReferencia;
+                            Main.numero_referencias_por_iteracion = nReferencias;
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e){
+            MensajeError("En los cuadros de texto requeridos hay al menos un valor que no es un número entero.","Valor no válido");
+            return false;
+        }
+    }
+    
+    private void MensajeError(String texto, String titulo){
+        JOptionPane.showMessageDialog(new JFrame(),texto,titulo,JOptionPane.ERROR_MESSAGE);
     }
 }
