@@ -6,8 +6,6 @@
 package memoriavirtual;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -586,9 +584,11 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 
                 //Listas las asignaciones. Ahora --> siguiente GUI
                 JOptionPane.showMessageDialog(new JFrame(),"Los resultados de cargar los procesos y las "+Main.numero_referencias_por_iteracion+" primeras referencias son los siguientes.","Éxito",JOptionPane.PLAIN_MESSAGE);
-                FuncionamientoGUI fGUI = new FuncionamientoGUI();
+                /*FuncionamientoGUI fGUI = new FuncionamientoGUI();
+                fGUI.setVisible(true);*/
                 this.setVisible(false);
-                fGUI.setVisible(true);
+                MapMemoriaFisica memFisica = new MapMemoriaFisica();
+                memFisica.setVisible(true);
             }
             else{
                 //Do nothing, ya se hizo en los métodos de validación
@@ -762,12 +762,18 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             
             if(ListaDeAtributos.get("Resident Set Management").toString().equals("Tamaño Fijo")){
                 int tF = Integer.parseInt(tamanoFijo);
-                if ((tF <= 0) || (tF < tMemFisica)){
+                if ((tF <= 0) || (tF >= tMemFisica)){
                     MensajeError("El número ingresado en el campo de tamaño fijo debe ser mayor a 0 y menor a la memoria física.","Error de entrada");
                     return false;
                 }
                 else{
-                    Main.tamaño_fijo = tF;
+                    if (((String) ListaDeAtributos.get("Replacement Scope")).equals("Global")){
+                        MensajeError("El Replacement Scope no puede ser Global cuando el Resident Set sea de tamaño fijo.","Error de incompatibilidad");
+                        return false;
+                    }
+                    else{
+                        Main.tamaño_fijo = tF;
+                    }
                 }
             }
             else{
