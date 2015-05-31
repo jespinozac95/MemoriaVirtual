@@ -157,24 +157,39 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_ResetButtonActionPerformed
 
     private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
-        if (!Main.lineas_archivos_referencias.isEmpty()){
-            JOptionPane.showConfirmDialog(new JFrame(), "Ya se cargaron todas las referencias del archivo especificado.");
+        if (Main.lineas_archivos_referencias.isEmpty()){
+            JOptionPane.showMessageDialog(new JFrame(), "Ya se cargaron todas las referencias del archivo especificado.");
         }
         else{
             for (int indice = 0; indice < Main.numero_referencias_por_iteracion; indice ++){
-                //Obtener y seccionar Referencia
-                String[] referenciaSeccionada = Main.lineas_archivos_referencias.get(indice).split(",");
-                
-                //Validar Referencia
-                if (ValidarReferencia(referenciaSeccionada)){
-                    //Agregar Referencia válida a la lista en Main.lineas_referencias_en_cuestion
-                    Referencia r = new Referencia(Integer.parseInt(referenciaSeccionada[0]),Integer.parseInt(referenciaSeccionada[1]),referenciaSeccionada[2].charAt(0));
-                    Main.lineas_referencias_en_cuestion.add(r);
-                    
-                    //Ejecutar las referencias en Main.lineas_referencias_en_cuestion
+                try{
+                    //Obtener y seccionar Referencia
+                    String[] referenciaSeccionada = Main.lineas_archivos_referencias.get(indice).split(",");
+
+                    //Validar Referencia
+                    if (ValidarReferencia(referenciaSeccionada)){
+                        //Agregar Referencia válida a la lista en Main.lineas_referencias_en_cuestion
+                        Referencia r = new Referencia(Integer.parseInt(referenciaSeccionada[0]),Integer.parseInt(referenciaSeccionada[1]),referenciaSeccionada[2].charAt(0));
+                        Main.lineas_referencias_en_cuestion.add(r);
+
+                    }
+                }
+                catch(Exception e){
                     
                 }
             }
+            //Quitar la referencia de la lista de referencias
+            for (int i = 0; i < Main.numero_referencias_por_iteracion; i++){
+                try{
+                    Main.lineas_archivos_referencias.remove(Main.lineas_archivos_referencias.get(i));
+                }
+                catch(Exception e){
+                    
+                }
+            }
+            JOptionPane.showMessageDialog(new JFrame(), "Referencias cargadas con éxito.");
+            //Ejecutar las referencias en Main.lineas_referencias_en_cuestion
+                    
         }
     }//GEN-LAST:event_NextButtonActionPerformed
 

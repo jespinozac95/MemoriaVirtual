@@ -24,13 +24,15 @@ public class MapMemoriaVirtual extends JFrame {
    public MapMemoriaVirtual() {
       super("Map Memoria Virtual");
       this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-      this.setResizable(true);
+      this.setResizable(false);
       SquaresVirtual squares = new SquaresVirtual();
       JScrollPane pane = new JScrollPane(squares,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-      this.setPreferredSize(new Dimension(350,350));
+
       this.setMinimumSize(new Dimension(350,350));
       pane.setWheelScrollingEnabled(true);
+      pane.setViewportView(squares);
       this.setContentPane(pane);
+      //this.getContentPane().add(pane);
       
       int plano_x = 5;
       int plano_y = 0;
@@ -57,7 +59,7 @@ public class MapMemoriaVirtual extends JFrame {
 
 }
 
-class SquaresVirtual extends JPanel {
+class SquaresVirtual extends JPanel implements Scrollable{
    private List<Rectangle> squares = new ArrayList<Rectangle>();
 
    public void addSquare(int x, int y, int width, int height) {
@@ -67,7 +69,7 @@ class SquaresVirtual extends JPanel {
 
    @Override
    public Dimension getPreferredSize() {
-      return new Dimension(410,510);
+      return new Dimension(410,((Main.tamaño_memoria_virtual/4)*100)+110);
    }
 
    @Override
@@ -87,4 +89,28 @@ class SquaresVirtual extends JPanel {
       }
    }
 
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return new Dimension(410,510);
+    }
+
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 50;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return false;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return false;
+    }
+
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 35;
+    }
 }

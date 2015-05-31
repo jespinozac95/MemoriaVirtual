@@ -24,17 +24,19 @@ public class MapMemoriaFisica extends JFrame {
    public MapMemoriaFisica() {
       super("Map Memoria Fisica");
       this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-      this.setResizable(true);
+      this.setResizable(false);
       Squares squares = new Squares();
       JScrollPane pane = new JScrollPane(squares,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-      this.setPreferredSize(new Dimension(350,350));
+      
       this.setMinimumSize(new Dimension(350,350));
       pane.setWheelScrollingEnabled(true);
+      pane.setViewportView(squares);
       this.setContentPane(pane);
+      //this.getContentPane().add(pane);
       
       int plano_x = 5;
       int plano_y = 0;
-      for (int i = 0; i < Main.tamaño_memoria_fisica; i++) { //i < Main.memoria_fisica.size (que no es vacío)
+      for (int i = 0; i < Main.tamaño_memoria_fisica; i++) { //i < Main.tamaño_memoria_fisica
         if (i%4==0){
             plano_x=5;
             plano_y += 100;
@@ -58,7 +60,7 @@ public class MapMemoriaFisica extends JFrame {
 
 }
 
-class Squares extends JPanel {
+class Squares extends JPanel implements Scrollable{
    private List<Rectangle> squares = new ArrayList<Rectangle>();
 
    public void addSquare(int x, int y, int width, int height) {
@@ -68,7 +70,10 @@ class Squares extends JPanel {
 
    @Override
    public Dimension getPreferredSize() {
-      return new Dimension(410,510);
+      if (Main.tamaño_memoria_fisica % 4 == 0)
+          return new Dimension(410,((Main.tamaño_memoria_fisica/4)*100)+110); //Main.tamaño_memoria_fisica
+      else
+          return new Dimension(410,(((Main.tamaño_memoria_fisica/4)+1)*100)+110); //Main.tamaño_memoria_fisica
    }
 
    @Override
@@ -83,4 +88,28 @@ class Squares extends JPanel {
       }
    }
 
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return new Dimension(410,510);
+    }
+
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 50;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return false;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return false;
+    }
+
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 35;
+    }
 }

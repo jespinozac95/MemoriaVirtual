@@ -602,12 +602,11 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 }
                 
                 //Listas las asignaciones. Ahora --> siguiente GUI
-                JOptionPane.showMessageDialog(new JFrame(),"Los resultados de cargar los procesos y las "+Main.numero_referencias_por_iteracion+" primeras referencias son los siguientes.","Éxito",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(),"Procesos y configuración cargados.","Éxito",JOptionPane.PLAIN_MESSAGE);
                 this.setVisible(false);
                 
                 //órdenes internas
                 VentanaConfiguracion.cargarProcesos();
-                VentanaConfiguracion.cargarReferencias();
                 
                 //órdenes externas
                 FuncionamientoGUI fGUI = new FuncionamientoGUI();
@@ -871,10 +870,6 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     
     public static void MensajeError(String texto, String titulo){
         JOptionPane.showMessageDialog(new JFrame(),texto,titulo,JOptionPane.ERROR_MESSAGE);
-    }
-
-    public static void cargarReferencias() {
-        //validar y cargar las primeras n referencias
     }
 
     public static void cargarProcesos() {
