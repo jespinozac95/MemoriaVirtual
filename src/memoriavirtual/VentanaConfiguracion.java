@@ -5,6 +5,7 @@
  */
 package memoriavirtual;
 
+import static java.lang.Math.pow;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
@@ -15,6 +16,24 @@ import javax.swing.JOptionPane;
  * @author Jespi_000
  */
 public class VentanaConfiguracion extends javax.swing.JFrame {
+
+    private static void CargarMemoriaVirtual() {
+        for (Proceso p : Main.lista_Procesos){
+            int partes = (p.tamano/1048576)+1; //1048576 = tamaño en bytes de un MB
+            p.num_pags = partes;
+            int num_pag = 1;
+            //System.out.println("Proceso: "+p.nombre+", partes = "+partes);
+            while (!(partes==0)){
+                Frame f = new Frame(p);
+                f.pag = num_pag;
+                Main.memoria_virtual.add(f);
+                //System.out.println("    Frame del Proceso: "+f.contenido.nombre+", num pag = "+num_pag);
+                partes--;
+                num_pag++;
+            }
+        }
+    }
+
 
     /**
      * Creates new form VentanaConfiguracion
@@ -252,11 +271,11 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             }
         });
 
-        jLabel17.setText("Tamaño de Memoria Física:");
+        jLabel17.setText("Tamaño de Memoria Física: (1-16)");
 
         FieldTamanoMemFisica.setToolTipText("El número ingresado aquí debe ser entre 1 y 16, pues la memoria física (RAM) siempre tiene un tamaño definido y menor a la cantidad de memoria virtual.");
 
-        jLabel18.setText("MB         Cantidad de bits de las referencias:");
+        jLabel18.setText("MB         Cantidad de bits de las referencias: (24-27)");
 
         FieldCantidadBitsReferencias.setToolTipText("El offset (tamaño de cada página de la memoria virtual) será siempre de 1MB, por lo que el número a ingresar debe estar entre 24 y 27.\n(Observar ayuda F1).");
 
@@ -388,7 +407,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                                 .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(FieldCantidadReferenciasPorIteracion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 6, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -584,11 +603,19 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 
                 //Listas las asignaciones. Ahora --> siguiente GUI
                 JOptionPane.showMessageDialog(new JFrame(),"Los resultados de cargar los procesos y las "+Main.numero_referencias_por_iteracion+" primeras referencias son los siguientes.","Éxito",JOptionPane.PLAIN_MESSAGE);
-                /*FuncionamientoGUI fGUI = new FuncionamientoGUI();
-                fGUI.setVisible(true);*/
                 this.setVisible(false);
+                
+                //órdenes internas
+                VentanaConfiguracion.cargarProcesos();
+                VentanaConfiguracion.cargarReferencias();
+                
+                //órdenes externas
+                FuncionamientoGUI fGUI = new FuncionamientoGUI();
+                fGUI.setVisible(true);
                 MapMemoriaFisica memFisica = new MapMemoriaFisica();
                 memFisica.setVisible(true);
+                MapMemoriaVirtual memVirtual = new MapMemoriaVirtual();
+                memVirtual.setVisible(true);
             }
             else{
                 //Do nothing, ya se hizo en los métodos de validación
@@ -693,7 +720,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 }
                 else{
                     diccionario.put("Tamaño Inicial (Variable)", FieldTamanoInicial.getText());
-                    diccionario.put("Tamaño Maximo (Variable)", FieldTamanoInicial.getText());
+                    diccionario.put("Tamaño Maximo (Variable)", FieldTamanoMaximo.getText());
                     diccionario.put("Tamaño Crecimiento Por Iteracion (Variable)", FieldCrecimientoPorIteracion.getText());
                 }
             }
@@ -780,7 +807,10 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 int tInicial = Integer.parseInt(tamanoInicial);
                 int tMaximo = Integer.parseInt(tamanoMaximo);
                 int tCrecimiento = Integer.parseInt(tamanoCrecimiento);
-                if ((tInicial <=0) || (tInicial > tMaximo) || (tInicial < tMemFisica)){
+                if ((tInicial <=0) || (tInicial >= tMaximo) || (tInicial >= tMemFisica)){
+                    /*System.out.println("tInicial = "+tInicial);
+                    System.out.println("tMaximo = "+tMaximo);
+                    System.out.println("tMemFisica = "+tMemFisica);*/
                     MensajeError("El número ingresado en el campo de tamaño inicial debe ser mayor a 0, y menor al tamaño máximo ingresado y a la memoria física.","Error de entrada");
                     return false;
                 }
@@ -825,6 +855,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                             Main.grado_de_multiprogramacion = gMultiprog;
                             Main.tamaño_memoria_fisica = tMemFisica;
                             Main.bits_de_referencias = bReferencia;
+                            Main.tamaño_memoria_virtual = (int) pow(2,Main.bits_de_referencias - 20);
                             Main.numero_referencias_por_iteracion = nReferencias;
                             return true;
                         }
@@ -838,7 +869,89 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         }
     }
     
-    private void MensajeError(String texto, String titulo){
+    public static void MensajeError(String texto, String titulo){
         JOptionPane.showMessageDialog(new JFrame(),texto,titulo,JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static void cargarReferencias() {
+        //validar y cargar las primeras n referencias
+    }
+
+    public static void cargarProcesos() {
+        //validar y cargar los procesos
+        for (String proceso : Main.lineas_archivos_procesos){
+            String[] procesoSeccionado = proceso.split(",");
+            /*for (String s : procesoSeccionado){
+                System.out.println(s);
+            }*/
+            if (Validar_Proceso(procesoSeccionado)){
+                //System.out.println("Proceso validado");
+                boolean blocked;
+                blocked = Integer.parseInt(procesoSeccionado[3]) != 0;
+                if (procesoSeccionado.length == 4){//sin prioridad
+                    Proceso p = new Proceso(Integer.parseInt(procesoSeccionado[0]),procesoSeccionado[1],Integer.parseInt(procesoSeccionado[2]),blocked);
+                    Main.lista_Procesos.add(p);
+                    //System.out.println("Proceso "+procesoSeccionado[1]+" creado");
+                }
+                else{//con prioridad
+                    Proceso p = new Proceso(Integer.parseInt(procesoSeccionado[0]),procesoSeccionado[1],Integer.parseInt(procesoSeccionado[2]),blocked,Integer.parseInt(procesoSeccionado[4]));
+                    Main.lista_Procesos.add(p);
+                    //System.out.println("Proceso "+procesoSeccionado[1]+" creado");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(new JFrame(),"El proceso: "+procesoSeccionado[1]+" no cumple con el formato requerido.","Error al cargar los procesos",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        //Cargar memoria virtual
+        CargarMemoriaVirtual();
+    }
+    private static boolean Validar_Proceso(String[] p){
+        //System.out.println("p.length = "+p.length);
+        if (p.length == 4){//sin prioridad
+            //System.out.println("Sin prioridad");
+            try{
+                int id = Integer.parseInt(p[0]);
+                int tamano = Integer.parseInt(p[2]);
+                int bloqueo = Integer.parseInt(p[3]);
+                if ((Proceso.yaEsProceso(id, p[1])) || (!((bloqueo == 0) || (bloqueo == 1)))){
+                    //System.out.println("yaEsProceso o bloqueo es otro num");
+                    return false;
+                }
+                else{
+                    //System.out.println("NO EsProceso y bloqueo 0 o 1");
+                    return true;
+                }
+            }
+            catch(Exception e){
+                //System.out.println("Catch del length = 4");
+                return false;
+            }
+        }
+        else if (p.length == 5){//con prioridad
+            try{
+                //System.out.println("Con prioridad");
+                int id = Integer.parseInt(p[0]);
+                int tamano = Integer.parseInt(p[2]);
+                int bloqueo = Integer.parseInt(p[3]);
+                int prioridad = Integer.parseInt(p[4]);
+                //System.out.println("todos ints");
+                if ((Proceso.yaEsProceso(id, p[1])) || (!((bloqueo == 0) || (bloqueo == 1)))){
+                    //System.out.println("yaEsProceso o bloqueo es otro num");
+                    return false;
+                }
+                else{
+                    //System.out.println("NO EsProceso y bloqueo 0 o 1");
+                    return true;
+                }
+            }
+            catch(Exception e){
+                //System.out.println("Catch del length = 5");
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
     }
 }

@@ -5,6 +5,7 @@
  */
 package memoriavirtual;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,11 +16,12 @@ import java.util.Map;
  */
 public class Main {
     //Atributos obtenidos de los archivos .txt
-    public static List<String> lineas_archivos_procesos;
-    public static List<String> lineas_archivos_referencias;
-    public static List<Proceso> lista_Procesos;
-    public static Frame[][] memoria_fisica = new Frame[10][10];
-    public static Frame[][] memoria_virtual = new Frame[50][10];
+    public static List<String> lineas_archivos_procesos = new LinkedList<String>();
+    public static List<String> lineas_archivos_referencias = new LinkedList<String>();
+    public static List<Referencia> lineas_referencias_en_cuestion = new LinkedList<Referencia>();
+    public static List<Proceso> lista_Procesos = new LinkedList<Proceso>();
+    public static List<Frame> memoria_fisica = new LinkedList<Frame>(); //max: 16
+    public static List<Frame> memoria_virtual = new LinkedList<Frame>(); //max: 128
     
     //Atributos obtenidos de la ventana de configuración
     public static boolean fetch_demand = false; //true si es demand, false si es prepaging
@@ -43,6 +45,7 @@ public class Main {
     public static int bits_de_referencias; //24-27
     public static int numero_referencias_por_iteracion; //menor al # de líneas totales del archivo de referencias
     
+    public static int tamaño_memoria_virtual; //16-128
     public static Map ListaDeAtributos; //Lista con todos los atributos
     
     public static void main(String[] args) {

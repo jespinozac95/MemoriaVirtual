@@ -15,14 +15,20 @@ import java.util.Date;
 
 
 public class Frame {
-    
+    public static int ultimo_id;
     public int identificador;
     public Proceso contenido;
     public int tamano;
     public int[][] localizacion = new int[1][3]; //ubicacion_memoriaF
     public Date TS1;
     public Date TS2;
+    public int pag;
 
+    public Frame(Proceso contenido){
+        this.identificador = ultimo_id++;
+        this.contenido = contenido;
+    }
+    
     public Frame(int identificador, Proceso contenido, int tamano) {
         this.identificador = identificador;
         this.contenido = contenido;

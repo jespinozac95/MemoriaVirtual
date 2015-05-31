@@ -139,7 +139,7 @@
                               <Component id="FieldCantidadReferenciasPorIteracion" min="-2" pref="29" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -541,7 +541,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel17">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tama&#xf1;o de Memoria F&#xed;sica:"/>
+        <Property name="text" type="java.lang.String" value="Tama&#xf1;o de Memoria F&#xed;sica: (1-16)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="FieldTamanoMemFisica">
@@ -551,7 +551,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel18">
       <Properties>
-        <Property name="text" type="java.lang.String" value="MB         Cantidad de bits de las referencias:"/>
+        <Property name="text" type="java.lang.String" value="MB         Cantidad de bits de las referencias: (24-27)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="FieldCantidadBitsReferencias">
