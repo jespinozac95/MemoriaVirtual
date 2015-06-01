@@ -18,6 +18,9 @@ public class Frame {
     public static int ultimo_id;
     public int identificador;
     public Proceso contenido;
+    public boolean esta_reservado;
+    public boolean esta_ocupado; 
+    public boolean modificado; 
     public int tamano;
     public int[][] localizacion = new int[1][3]; //ubicacion_memoriaF
     public Date TS1;
