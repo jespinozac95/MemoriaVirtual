@@ -22,6 +22,7 @@ public class Main {
     public static List<Proceso> lista_Procesos = new LinkedList<Proceso>();
     public static List<Frame> memoria_fisica = new LinkedList<Frame>(); //max: 16
     public static List<Frame> memoria_virtual = new LinkedList<Frame>(); //max: 128
+    public static List<Log> log = new LinkedList<Log>();
     
     //Atributos obtenidos de la ventana de configuración
     public static boolean fetch_demand = false; //true si es demand, false si es prepaging

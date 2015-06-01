@@ -25,7 +25,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             //System.out.println("Proceso: "+p.nombre+", partes = "+partes);
             while (!(partes==0)){
                 Frame f = new Frame(p);
-                f.pag = num_pag;
+                f.identificador = num_pag;
                 Main.memoria_virtual.add(f);
                 //System.out.println("    Frame del Proceso: "+f.contenido.nombre+", num pag = "+num_pag);
                 partes--;
@@ -814,13 +814,13 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                     return false;
                 }
                 else{
-                    if (tMaximo <=0){
-                        MensajeError("El número ingresado en el campo del tamaño máximo debe ser mayor a 0.","Error de entrada");
+                    if ((tMaximo <=0) || (tMaximo >= ((int) pow(2,Main.bits_de_referencias - 20)))){
+                        MensajeError("El número ingresado en el campo del tamaño máximo debe ser mayor a 0 y menor al tamaño de la memoria virtual.","Error de entrada");
                         return false;
                     }
                     else{
-                        if (tCrecimiento <=0){
-                            MensajeError("El número ingresado en el campo del crecimiento por referencia debe ser mayor a 0.","Error de entrada");
+                        if ((tCrecimiento <=0) || (tCrecimiento >= tMaximo)){
+                            MensajeError("El número ingresado en el campo del crecimiento por referencia debe ser mayor a 0 y menor al tamaño máximo.","Error de entrada");
                             return false;
                         }
                         else{

@@ -40,11 +40,31 @@ public class MapMemoriaFisica extends JFrame {
         if (i%4==0){
             plano_x=5;
             plano_y += 100;
-            squares.addSquare(plano_x, plano_y, 100, 100);
+            Color c = Color.BLACK;
+            // if modificado == 1 Color.Red
+            if (Main.memoria_fisica.get(i).modificado)
+                c = Color.RED;
+            // if bloqueado == 1 Color.Blue
+            if (Main.memoria_fisica.get(i).contenido.esta_bloqueado)
+                c = Color.BLUE;
+            // if esta_reservado == 1 Color.Green
+            if (Main.memoria_fisica.get(i).esta_reservado)
+                c = Color.GREEN;
+            squares.addSquare(plano_x, plano_y, 100, 100,c);
         }
         else{
             plano_x += 100;
-            squares.addSquare(plano_x, plano_y, 100, 100);
+            Color c = Color.BLACK;
+            // if modificado == 1 Color.Red
+            if (Main.memoria_fisica.get(i).modificado)
+                c = Color.RED;
+            // if bloqueado == 1 Color.Blue
+            if (Main.memoria_fisica.get(i).contenido.esta_bloqueado)
+                c = Color.BLUE;
+            // if esta_reservado == 1 Color.Green
+            if (Main.memoria_fisica.get(i).esta_reservado)
+                c = Color.GREEN;            
+            squares.addSquare(plano_x, plano_y, 100, 100,c);
         }
       }
 
@@ -60,11 +80,22 @@ public class MapMemoriaFisica extends JFrame {
 
 }
 
-class Squares extends JPanel implements Scrollable{
-   private List<Rectangle> squares = new ArrayList<Rectangle>();
+class Cuadrado extends Rectangle{
+    Color color;
+    Cuadrado(int x, int y, int width, int height,Color c){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = c;
+    }
+}
 
-   public void addSquare(int x, int y, int width, int height) {
-      Rectangle rect = new Rectangle(x, y, width, height);
+class Squares extends JPanel implements Scrollable{
+   private List<Cuadrado> squares = new ArrayList<Cuadrado>();
+
+   public void addSquare(int x, int y, int width, int height, Color c) {
+      Cuadrado rect = new Cuadrado(x, y, width, height,c);
       squares.add(rect);
    }
 
@@ -80,8 +111,8 @@ class Squares extends JPanel implements Scrollable{
    protected void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
-      for (Rectangle rect : squares) {
-          g2.setColor(Color.BLACK);
+      for (Cuadrado rect : squares) {
+          g2.setColor(rect.color);
           g2.draw(rect);
           //g2.drawString("Proceso",rect.x+30,rect.y+40); //Proceso.nombre
           //g2.drawString("Pag #",rect.x+30,rect.y+60); //Pag del proceso

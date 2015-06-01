@@ -15,7 +15,7 @@ import java.util.Date;
 
 
 public class Frame {
-    public static int ultimo_id;
+    //public static int ultimo_id;
     public int identificador;
     public Proceso contenido;
     public boolean esta_reservado;
@@ -25,10 +25,10 @@ public class Frame {
     public int[][] localizacion = new int[1][3]; //ubicacion_memoriaF
     public Date TS1;
     public Date TS2;
-    public int pag;
+    //public int pag;
 
     public Frame(Proceso contenido){
-        this.identificador = ultimo_id++;
+        //this.identificador = ultimo_id++;
         this.contenido = contenido;
     }
     

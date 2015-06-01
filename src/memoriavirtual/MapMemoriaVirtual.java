@@ -83,7 +83,7 @@ class SquaresVirtual extends JPanel implements Scrollable{
           if (indice < Main.memoria_virtual.size()){
               //System.out.println("indice = "+indice+", memoria_virtual.size() = "+Main.memoria_virtual.size());
               g2.drawString(Main.memoria_virtual.get(indice).contenido.nombre,rect.x+30,rect.y+40); //Proceso.nombre
-              g2.drawString("Pág #"+Integer.toString(Main.memoria_virtual.get(indice).pag),rect.x+30,rect.y+60); //Pag del proceso
+              g2.drawString("Pág #"+Integer.toString(Main.memoria_virtual.get(indice).identificador),rect.x+30,rect.y+60); //Pag del proceso
               indice ++;
           }
       }
