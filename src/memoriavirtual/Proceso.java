@@ -5,12 +5,14 @@
  */
 package memoriavirtual;
 
+import java.util.List;
+
 /**
  *
  * @author Adrian
  */
 public class Proceso {
-    
+
     public int identificador;
     public String nombre;
     public int prioridad;
@@ -52,5 +54,18 @@ public class Proceso {
         }
         //System.out.println("    NO yaEsProceso");
         return false;
+    }
+    
+    public static Proceso SeleccionarMayorPrioridad(List<Proceso> lista_Procesos) {
+        Proceso p = null;
+        for (Proceso q : lista_Procesos){
+            if (p == null){
+                p = q;
+            }
+            else if (p.prioridad < q.prioridad){
+                p = q;
+            }
+        }
+        return p;
     }
 }

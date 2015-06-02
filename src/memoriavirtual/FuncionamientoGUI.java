@@ -6,6 +6,8 @@
 package memoriavirtual;
 
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -253,17 +255,35 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
                 }
             }
             
-            //Ejecutar las referencias en Main.lineas_referencias_en_cuestion
-            for(Referencia r : Main.lineas_referencias_en_cuestion){
-                //Si memoria Fisica es nula --> Fetch
-                //Si memoria Fisica no llena --> Placement
-                //Si memoria Fisica llena o scope local *fixed--> Replacement.AsignarPagina(r);
-            }
+            Controlador.ejecutarReferencias();
             
             JOptionPane.showMessageDialog(new JFrame(), "Referencias cargadas con éxito.");
+
+            if (!Main.cleaning_demand){ //Precleaning --> thread cada 15segs
+                Timer timer = new Timer();
+                timer.schedule(new PreCleaning(), 0, 15000);
+            }
         }
     }//GEN-LAST:event_NextButtonActionPerformed
+    
+    class PreCleaning extends TimerTask{
 
+        @Override
+        public void run() {
+            for (Frame f : Main.memoria_fisica){
+                if (f.modificado){
+                    f.modificado = false;
+                }
+            }
+            JOptionPane.showMessageDialog(new JFrame(), "Precleaning activo ha limpiado los frames de la memoria física.");
+            Main.log.add(new Log(-1,"PreCleaning",-1,false, new Date()));
+            CargarTablaReferencias();
+            CargarTablaLog();
+            new MapMemoriaFisica().setVisible(true);
+        }
+        
+    }
+    
     private void General1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_General1ActionPerformed
         JOptionPane.showMessageDialog(new JFrame(),"Esta es la ventana del Muestreo General.\nAquí puede observar cuatro elementos en tres ventanas:"
                 + "\n\n   - Ventana Muestreo General: Contiene dos elementos.\n"

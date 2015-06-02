@@ -7,6 +7,8 @@ package memoriavirtual;
 
 import static java.lang.Math.pow;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -884,18 +886,46 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 boolean blocked;
                 blocked = Integer.parseInt(procesoSeccionado[3]) != 0;
                 if (procesoSeccionado.length == 4){//sin prioridad
-                    Proceso p = new Proceso(Integer.parseInt(procesoSeccionado[0]),procesoSeccionado[1],Integer.parseInt(procesoSeccionado[2]),blocked);
-                    Main.lista_Procesos.add(p);
-                    //System.out.println("Proceso "+procesoSeccionado[1]+" creado");
+                    if (Main.seleccion_de_procesos_FIFO){
+                        Proceso p = new Proceso(Integer.parseInt(procesoSeccionado[0]),procesoSeccionado[1],Integer.parseInt(procesoSeccionado[2]),blocked);
+                        Main.lista_Procesos.add(p);
+                        //System.out.println("Proceso "+procesoSeccionado[1]+" creado");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(new JFrame(),"El proceso: "+procesoSeccionado[1]+" no cumple con el formato requerido, necesita 4 parámetros en vez de 5.","Error al cargar los procesos",JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else{//con prioridad
-                    Proceso p = new Proceso(Integer.parseInt(procesoSeccionado[0]),procesoSeccionado[1],Integer.parseInt(procesoSeccionado[2]),blocked,Integer.parseInt(procesoSeccionado[4]));
-                    Main.lista_Procesos.add(p);
-                    //System.out.println("Proceso "+procesoSeccionado[1]+" creado");
+                    if (!Main.seleccion_de_procesos_FIFO){
+                        Proceso p = new Proceso(Integer.parseInt(procesoSeccionado[0]),procesoSeccionado[1],Integer.parseInt(procesoSeccionado[2]),blocked,Integer.parseInt(procesoSeccionado[4]));
+                        Main.lista_Procesos.add(p);
+                        //System.out.println("Proceso "+procesoSeccionado[1]+" creado");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(new JFrame(),"El proceso: "+procesoSeccionado[1]+" no cumple con el formato requerido, necesita 5 parámetros en vez de 4.","Error al cargar los procesos",JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
             else{
                 JOptionPane.showMessageDialog(new JFrame(),"El proceso: "+procesoSeccionado[1]+" no cumple con el formato requerido.","Error al cargar los procesos",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        //si el grado de programacion es menor al numero de procesos cargados, seleccionar los de mayor prioridad, o los primeros en entrar
+        if (Main.grado_de_multiprogramacion < Main.lista_Procesos.size()){
+            List<Proceso> nuevaListaProcesos = new LinkedList<Proceso>();
+            if (Main.seleccion_de_procesos_FIFO){
+                for (int i = 0; i < Main.grado_de_multiprogramacion ; i++){
+                    nuevaListaProcesos.add(Main.lista_Procesos.get(i));
+                }
+                Main.lista_Procesos = nuevaListaProcesos;
+            }
+            else{
+                for (int i = 0; i < Main.grado_de_multiprogramacion ; i++){
+                    Proceso p = Proceso.SeleccionarMayorPrioridad(Main.lista_Procesos);
+                    nuevaListaProcesos.add(p);
+                    Main.lista_Procesos.remove(p);
+                }
+                Main.lista_Procesos = nuevaListaProcesos;
             }
         }
         //Cargar memoria virtual
