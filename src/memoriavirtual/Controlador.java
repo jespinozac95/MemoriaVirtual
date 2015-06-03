@@ -21,6 +21,7 @@ public class Controlador {
                 //Si memoria Fisica es nula --> Fetch
                 //Si memoria Fisica no llena --> Placement
                 //Si memoria Fisica llena o scope local *fixed--> Replacement.AsignarPagina(r);
+                //ACTUALIZAR Main.mFisica, Logs y Tabla de Referencias
             }
     }
     

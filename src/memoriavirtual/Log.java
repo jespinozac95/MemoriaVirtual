@@ -19,11 +19,18 @@ public class Log {
     public boolean reemplazo;
     public Date ts;
     
-    public Log(int numero, String proceso, int frame, boolean reemplazo, Date ts){
+    public Log(int numero, String proceso, int frame, boolean reemplazo, Date ts){ //Para los que sí tienen suficiente info
         this.numero_referencia = numero;
         this.proceso = proceso;
         this.frame_en_cuestion = frame;
         this.reemplazo = reemplazo;
+        this.ts = ts;
+    }
+    public Log(String proceso, Date ts){ //Para los que no tienen mucha info como el cleaning
+        this.numero_referencia = -1;
+        this.proceso = proceso;
+        this.frame_en_cuestion = -1;
+        this.reemplazo = false;
         this.ts = ts;
     }
 }

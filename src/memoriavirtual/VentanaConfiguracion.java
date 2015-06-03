@@ -573,8 +573,14 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 if (fetch.equals("Demand")){
                     Main.fetch_demand = true;
                 }
+                else{
+                    Main.fetch_demand = false;
+                }
                 if (placement.equals("First available")){
                     Main.placement_first_available = true;
+                }
+                else{
+                    Main.placement_first_available = false;
                 }
                 switch (replacement){
                     case "Least Recently Used":
@@ -593,30 +599,47 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 if (residentSet.equals("Tamaño Fijo")){
                     Main.resident_set_management_fixed = true;
                 }
+                else{
+                    Main.resident_set_management_fixed = false;
+                }
                 if (replacementScope.endsWith("Global")){
                     Main.replacement_scope_global = true;
+                }
+                else{
+                    Main.replacement_scope_global = false;
                 }
                 if (cleaning.equals("Demand")){
                     Main.cleaning_demand = true;
                 }
+                else{
+                    Main.cleaning_demand = false;
+                }
                 if (seleccionProcesos.equals("First In - First Out")){
                     Main.seleccion_de_procesos_FIFO = true;
                 }
-                
-                //Listas las asignaciones. Ahora --> siguiente GUI
-                JOptionPane.showMessageDialog(new JFrame(),"Procesos y configuración cargados.","Éxito",JOptionPane.PLAIN_MESSAGE);
-                this.setVisible(false);
+                else{
+                    Main.seleccion_de_procesos_FIFO = false;
+                }
                 
                 //órdenes internas
                 VentanaConfiguracion.cargarProcesos();
                 
-                //órdenes externas
-                FuncionamientoGUI fGUI = new FuncionamientoGUI();
-                fGUI.setVisible(true);
-                MapMemoriaFisica memFisica = new MapMemoriaFisica();
-                memFisica.setVisible(true);
-                MapMemoriaVirtual memVirtual = new MapMemoriaVirtual();
-                memVirtual.setVisible(true);
+                if (!Main.lista_Procesos.isEmpty()){
+                    //Listas las asignaciones. Ahora --> siguiente GUI
+                    JOptionPane.showMessageDialog(new JFrame(),"Procesos y configuración cargados.","Éxito",JOptionPane.PLAIN_MESSAGE);
+                    this.setVisible(false);
+                
+                    //órdenes externas
+                    FuncionamientoGUI fGUI = new FuncionamientoGUI();
+                    fGUI.setVisible(true);
+                    MapMemoriaFisica memFisica = new MapMemoriaFisica();
+                    memFisica.setVisible(true);
+                    MapMemoriaVirtual memVirtual = new MapMemoriaVirtual();
+                    memVirtual.setVisible(true);
+                    
+                    Main.mFisica = memFisica;
+                    Main.mVirtual = memVirtual;
+                }
             }
             else{
                 //Do nothing, ya se hizo en los métodos de validación
@@ -878,11 +901,14 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         //validar y cargar los procesos
         for (String proceso : Main.lineas_archivos_procesos){
             String[] procesoSeccionado = proceso.split(",");
-            /*for (String s : procesoSeccionado){
-                System.out.println(s);
-            }*/
+            /*System.out.println("------------------------");
+            for (String s : procesoSeccionado){
+                System.out.print(s+",");
+            }
+            System.out.println("Length = "+procesoSeccionado.length);
+            System.out.println("------------------------");*/
             if (Validar_Proceso(procesoSeccionado)){
-                //System.out.println("Proceso validado");
+                //System.out.println("Proceso validado, length = "+procesoSeccionado.length);
                 boolean blocked;
                 blocked = Integer.parseInt(procesoSeccionado[3]) != 0;
                 if (procesoSeccionado.length == 4){//sin prioridad
@@ -892,7 +918,8 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                         //System.out.println("Proceso "+procesoSeccionado[1]+" creado");
                     }
                     else{
-                        JOptionPane.showMessageDialog(new JFrame(),"El proceso: "+procesoSeccionado[1]+" no cumple con el formato requerido, necesita 4 parámetros en vez de 5.","Error al cargar los procesos",JOptionPane.ERROR_MESSAGE);
+                        //System.out.println("Politica: "+Main.seleccion_de_procesos_FIFO);
+                        JOptionPane.showMessageDialog(new JFrame(),"El proceso: "+procesoSeccionado[1]+" no cumple con el formato requerido, necesita 5 parámetros en vez de 4.","Error al cargar los procesos",JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else{//con prioridad
@@ -902,7 +929,8 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                         //System.out.println("Proceso "+procesoSeccionado[1]+" creado");
                     }
                     else{
-                        JOptionPane.showMessageDialog(new JFrame(),"El proceso: "+procesoSeccionado[1]+" no cumple con el formato requerido, necesita 5 parámetros en vez de 4.","Error al cargar los procesos",JOptionPane.ERROR_MESSAGE);
+                        //System.out.println("Politica: "+Main.seleccion_de_procesos_FIFO);
+                        JOptionPane.showMessageDialog(new JFrame(),"El proceso: "+procesoSeccionado[1]+" no cumple con el formato requerido, necesita 4 parámetros en vez de 5.","Error al cargar los procesos",JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }

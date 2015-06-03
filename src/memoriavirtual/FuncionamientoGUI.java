@@ -46,6 +46,7 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
         menu1 = new javax.swing.JMenuBar();
         Ayuda1 = new javax.swing.JMenu();
         General1 = new javax.swing.JMenuItem();
+        General2 = new javax.swing.JMenuItem();
         Creditos = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -146,6 +147,15 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
         });
         Ayuda1.add(General1);
 
+        General2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        General2.setText("Configuraciones Actuales");
+        General2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                General2ActionPerformed(evt);
+            }
+        });
+        Ayuda1.add(General2);
+
         menu1.add(Ayuda1);
 
         Creditos.setText("Créditos");
@@ -218,9 +228,14 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
     private void ResetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetButtonActionPerformed
         this.setVisible(false);
         this.dispose();
+        Main.cleaning_demand = true; //para evitar que se siga haciendo precleaning
         Main.log.add(new Log(-1,"RESET",-1,false, new Date()));
         VentanaInicio vi = new VentanaInicio();
         vi.setVisible(true);
+        Main.mFisica.dispose();
+        Main.mVirtual.dispose();
+        Main.mFisica = null;
+        Main.mVirtual = null;
     }//GEN-LAST:event_ResetButtonActionPerformed
 
     private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
@@ -259,9 +274,10 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(new JFrame(), "Referencias cargadas con éxito.");
 
-            if (!Main.cleaning_demand){ //Precleaning --> thread cada 15segs
+            if ((!Main.cleaning_demand)&&(!Main.precleaningActivo)){ //Precleaning --> thread cada 15segs
                 Timer timer = new Timer();
                 timer.schedule(new PreCleaning(), 0, 15000);
+                Main.precleaningActivo = true;
             }
         }
     }//GEN-LAST:event_NextButtonActionPerformed
@@ -270,16 +286,27 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
 
         @Override
         public void run() {
-            for (Frame f : Main.memoria_fisica){
-                if (f.modificado){
-                    f.modificado = false;
+            if (!Main.cleaning_demand){
+                for (Frame f : Main.memoria_fisica){
+                    if (f.modificado){
+                        f.modificado = false;
+                    }
+                }
+                JOptionPane.showMessageDialog(new JFrame(), "Precleaning activo ha limpiado los frames de la memoria física.");
+                Main.log.add(new Log(-1,"PreCleaning",-1,false, new Date()));
+                CargarTablaReferencias();
+                CargarTablaLog();
+                MapMemoriaFisica mapActualizado = new MapMemoriaFisica();
+                if (Main.mFisica != null){
+                    Main.mFisica.dispose();
+                    Main.mFisica = mapActualizado;
+                    Main.mFisica.setVisible(true);
+                }
+                else{
+                    Main.mFisica = mapActualizado;
+                    Main.mFisica.setVisible(true);
                 }
             }
-            JOptionPane.showMessageDialog(new JFrame(), "Precleaning activo ha limpiado los frames de la memoria física.");
-            Main.log.add(new Log(-1,"PreCleaning",-1,false, new Date()));
-            CargarTablaReferencias();
-            CargarTablaLog();
-            new MapMemoriaFisica().setVisible(true);
         }
         
     }
@@ -325,6 +352,53 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
     private void CreditosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CreditosKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_CreditosKeyPressed
+
+    private void General2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_General2ActionPerformed
+        String configuraciones = "";
+        configuraciones += "Fetch Policy: ";
+        if (Main.fetch_demand)
+            configuraciones += "Demand";
+        else
+            configuraciones += "Prepaging";
+        configuraciones += "\nPlacement Policy: ";
+        if (Main.placement_first_available)
+            configuraciones += "First Available";
+        else
+            configuraciones += "Next Available";
+        configuraciones += "\nReplacement Policy: "+Main.replacement_policy;
+        configuraciones += "\nWorking Set: "; //Fijo o Variable
+        if (Main.resident_set_management_fixed){
+            configuraciones += "Fijo";
+            configuraciones += "\n    - Tamaño: "+Main.tamaño_fijo;
+        }
+        else{
+            configuraciones += "Variable";
+            configuraciones += "\n    - Tamaño Inicial: "+Main.tamaño_inicial;
+            configuraciones += "\n    - Tamaño Máximo: "+Main.tamaño_maximo;
+            configuraciones += "\n    - Crecimiento: "+Main.crecimiento_por_reemplazo;
+        }
+        configuraciones += "\nReplacement Scope: ";
+        if (Main.replacement_scope_global)
+            configuraciones += "Global";
+        else
+            configuraciones += "Local";
+        configuraciones += "\nCleaning Policy: ";
+        if (Main.cleaning_demand)
+            configuraciones += "Demand";
+        else
+            configuraciones += "Precleaning";
+        configuraciones += "\nGrado de Multiprogramación: "+Main.grado_de_multiprogramacion;
+        configuraciones += "\nPolítica de Selección de Procesos: ";
+        if (Main.seleccion_de_procesos_FIFO)
+            configuraciones += "FIFO";
+        else
+            configuraciones += "Prioridad";
+        configuraciones += "\nTamaño de la Memoria Física: "+Main.tamaño_memoria_fisica;
+        configuraciones += "\nTamaño de la Memoria Virtual: "+Main.tamaño_memoria_virtual;
+        configuraciones += "\nCantidad de Referencias por Iteración: "+Main.numero_referencias_por_iteracion;
+        
+        JOptionPane.showMessageDialog(new JFrame(), configuraciones, "Ayuda - Configuraciones Actuales",JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_General2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -376,6 +450,7 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
     private javax.swing.JMenu Ayuda1;
     private javax.swing.JMenu Creditos;
     private javax.swing.JMenuItem General1;
+    private javax.swing.JMenuItem General2;
     private javax.swing.JButton NextButton;
     private javax.swing.JButton ResetButton;
     private javax.swing.JTable TablaDeLog;
