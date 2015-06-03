@@ -43,7 +43,7 @@ public class MapMemoriaFisica extends JFrame {
             Color c = Color.BLACK;
             if (!Main.memoria_fisica.isEmpty()){
                 // if modificado == 1 Color.Red
-                if (Main.memoria_fisica.get(i).modificado)
+                try{if (Main.memoria_fisica.get(i).modificado)
                     c = Color.RED;
                 // if bloqueado == 1 Color.Blue
                 if (Main.memoria_fisica.get(i).contenido.esta_bloqueado)
@@ -51,6 +51,8 @@ public class MapMemoriaFisica extends JFrame {
                 // if esta_reservado == 1 Color.Green
                 if (Main.memoria_fisica.get(i).esta_reservado)
                     c = Color.GREEN;
+                }
+                catch(Exception e){}
             }
             squares.addSquare(plano_x, plano_y, 100, 100,c);
         }
@@ -58,6 +60,7 @@ public class MapMemoriaFisica extends JFrame {
             plano_x += 100;
             Color c = Color.BLACK;
             if (!Main.memoria_fisica.isEmpty()){
+                try{
                 // if modificado == 1 Color.Red
                 if (Main.memoria_fisica.get(i).modificado)
                     c = Color.RED;
@@ -67,6 +70,8 @@ public class MapMemoriaFisica extends JFrame {
                 // if esta_reservado == 1 Color.Green
                 if (Main.memoria_fisica.get(i).esta_reservado)
                     c = Color.GREEN;
+                }
+                catch(Exception e){}
             }     
             squares.addSquare(plano_x, plano_y, 100, 100,c);
         }
@@ -122,11 +127,14 @@ class Squares extends JPanel implements Scrollable{
           if (indice < Main.memoria_fisica.size()){
               //System.out.println("indice = "+indice+", memoria_virtual.size() = "+Main.memoria_virtual.size());
               try{
-                g2.drawString(Main.memoria_virtual.get(indice).contenido.nombre,rect.x+30,rect.y+40); //Proceso.nombre
-                g2.drawString("Pág #"+Integer.toString(Main.memoria_virtual.get(indice).identificador),rect.x+30,rect.y+60); //Pag del proceso
+                g2.drawString(Main.memoria_fisica.get(indice).contenido.nombre,rect.x+30,rect.y+40); //Proceso.nombre
+                g2.drawString("Pág #"+Integer.toString(Main.memoria_fisica.get(indice).identificador),rect.x+30,rect.y+60); //Pag del proceso
               }
               catch (Exception e){
-                  
+                  try{
+                      g2.drawString(Main.memoria_fisica.get(indice).proceso_reserva,rect.x+30,rect.y+40); //Proceso.nombre
+                  }
+                  catch (Exception i){}
               }
               indice ++;
           }

@@ -18,10 +18,16 @@ public class Controlador {
     public static void ejecutarReferencias(){
         //Ejecutar cada referencia en la lista: Main.lineas_referencias_en_cuestion
             for(Referencia r : Main.lineas_referencias_en_cuestion){
+                //Si es la primera vez (Memoria Fisica nula) --> Working set
+                if (Main.memoria_fisica.isEmpty()){
+                    ResidentSet rs = new ResidentSet();
+                    //rs.ResidentSetFijo(Main.tamaño_fijo);
+                    rs.ResidentSetFijo2();                    
+                }
                 //Si memoria Fisica es nula --> Fetch
+                
                 //Si memoria Fisica no llena --> Placement
                 //Si memoria Fisica llena o scope local *fixed--> Replacement.AsignarPagina(r);
-                //ACTUALIZAR Main.mFisica, Logs y Tabla de Referencias
             }
     }
     

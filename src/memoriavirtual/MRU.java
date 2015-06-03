@@ -66,38 +66,37 @@ public class MRU {
         else {
             int posicionActual = 0;
             int id_proceso = proceso.identificador;
-            List<Frame> listaLocal = obtenerLocales(id_proceso);
-            Frame actual = listaLocal.get(0);
+            Frame actual = Main.memoria_fisica.get(0);
             int n=1;
             if(Main.memoria_fisica.size()==0){
                 posicionActual = -1;
             }
             else{
-                while (n<listaLocal.size()){
+                while (n<Main.memoria_fisica.size()){
                     if(proceso.identificador==Main.memoria_fisica.get(n).identificador){
                         if ((Main.memoria_fisica.get(n).identificador==actual.identificador)&&(Main.memoria_fisica.get(n).contenido.identificador!=actual.contenido.identificador)){
                             break;
                         }
-                        if(listaLocal.get(n).esta_reservado==true){
-                            if (listaLocal.get(n).contenido.esta_bloqueado){
+                        if(Main.memoria_fisica.get(n).esta_reservado==true){
+                            if (Main.memoria_fisica.get(n).contenido.esta_bloqueado){
                                 n++;
                             }
                             else{
-                                if (actual.TS_ultima_referencia>listaLocal.get(n).TS_ultima_referencia){
+                                if (actual.TS_ultima_referencia>Main.memoria_fisica.get(n).TS_ultima_referencia){
                                     n++;
                                 }
-                                else if (actual.TS_ultima_referencia<listaLocal.get(n).TS_ultima_referencia){
-                                    actual = listaLocal.get(n);
+                                else if (actual.TS_ultima_referencia<Main.memoria_fisica.get(n).TS_ultima_referencia){
+                                    actual = Main.memoria_fisica.get(n);
                                     posicionActual = n;
                                     n++;                            
                                 }
                             }
                         }
-                        else if (actual.TS_ultima_referencia>listaLocal.get(n).TS_ultima_referencia){                    
+                        else if (actual.TS_ultima_referencia>Main.memoria_fisica.get(n).TS_ultima_referencia){                    
                             n++;
                         }
-                        else if (actual.TS_ultima_referencia<listaLocal.get(n).TS_ultima_referencia){
-                            actual = listaLocal.get(n);
+                        else if (actual.TS_ultima_referencia<Main.memoria_fisica.get(n).TS_ultima_referencia){
+                            actual = Main.memoria_fisica.get(n);
                             posicionActual = n;
                             n++;                    
                         }                

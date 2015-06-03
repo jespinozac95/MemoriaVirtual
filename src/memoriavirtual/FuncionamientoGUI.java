@@ -279,6 +279,13 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
                 timer.schedule(new PreCleaning(), 0, 15000);
                 Main.precleaningActivo = true;
             }
+            
+            //ACTUALIZAR Main.mFisica, Logs y Tabla de Referencias
+            Main.mFisica.dispose();
+            Main.mFisica = new MapMemoriaFisica();
+            Main.mFisica.setVisible(true);
+            CargarTablaLog();
+            CargarTablaReferencias();
         }
     }//GEN-LAST:event_NextButtonActionPerformed
     
@@ -486,7 +493,8 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
 
     private void CargarTablaReferencias() {
         Object [][] infoTablaReferencias = new Object [Main.tamaño_memoria_fisica][8];
-        for (int i = 0; i < Main.memoria_fisica.size(); i++){
+        try{for (int i = 0; i < Main.memoria_fisica.size(); i++){
+            //System.out.println("i = "+i);
             infoTablaReferencias[i][0] = i;
             infoTablaReferencias[i][1]= Main.memoria_fisica.get(i).contenido.nombre;
             infoTablaReferencias[i][2] = Main.memoria_fisica.get(i).identificador;
@@ -499,11 +507,14 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
         String[] columnas = new String[]{"Frame","Proceso","Página","Bit de Bloqueo","Dirty Bit (Modificación)","Reservado","TS de Creación","TS de Modificación"};
         
         TablaDeReferencias.setModel(new javax.swing.table.DefaultTableModel(infoTablaReferencias,columnas){});
+        }
+        catch(Exception e){
+        }
     }
 
     private void CargarTablaLog() {
         Object [][] infoTablaLog = new Object [Main.log.size()][5];
-        for (int i = 0; i < Main.log.size(); i++){
+        try{for (int i = 0; i < Main.log.size(); i++){
             infoTablaLog[i][0] = Main.log.get(i).numero_referencia;
             infoTablaLog[i][1]= Main.log.get(i).proceso;
             infoTablaLog[i][2] = Main.log.get(i).frame_en_cuestion;
@@ -513,5 +524,8 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
         String[] columnas = new String[]{"# de Referencia","Proceso","Frame en Cuestión","Reemplazo","Time Stamp"};
         
         TablaDeLog.setModel(new javax.swing.table.DefaultTableModel(infoTablaLog,columnas){});
+        }
+        catch(Exception e){
+        }
     }
 }
