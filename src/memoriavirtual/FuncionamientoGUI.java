@@ -147,7 +147,7 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
         });
         Ayuda1.add(General1);
 
-        General2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        General2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         General2.setText("Configuraciones Actuales");
         General2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -494,7 +494,7 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
             infoTablaReferencias[i][4] = Main.memoria_fisica.get(i).modificado;
             infoTablaReferencias[i][5] = Main.memoria_fisica.get(i).esta_reservado;
             infoTablaReferencias[i][6] = Main.memoria_fisica.get(i).TS1;
-            infoTablaReferencias[i][7] = Main.memoria_fisica.get(i).TS2;
+            infoTablaReferencias[i][7] = Main.memoria_fisica.get(i).TS_ultima_referencia;
         }
         String[] columnas = new String[]{"Frame","Proceso","Página","Bit de Bloqueo","Dirty Bit (Modificación)","Reservado","TS de Creación","TS de Modificación"};
         

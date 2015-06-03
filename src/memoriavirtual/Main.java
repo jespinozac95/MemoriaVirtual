@@ -52,6 +52,9 @@ public class Main {
     public static int tamaño_memoria_virtual; //16-128
     public static Map ListaDeAtributos; //Lista con todos los atributos
     
+    public static boolean global_convertido_fijo=false;
+    public static int puntero_clock;
+    
     public static void main(String[] args) {
         VentanaInicio ventana_inicio = new VentanaInicio();
         ventana_inicio.setVisible(true);

@@ -787,11 +787,13 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         
         if(ListaDeAtributos.get("Resident Set Management").toString().equals("Tamaño Fijo")){
             tamanoFijo = (String) ListaDeAtributos.get("Tamaño Fijo");
+            //System.out.println("tamano Fijo = "+tamanoFijo);
         }
         else{
             tamanoInicial = (String) ListaDeAtributos.get("Tamaño Inicial (Variable)");
             tamanoMaximo = (String) ListaDeAtributos.get("Tamaño Maximo (Variable)");
             tamanoCrecimiento = (String) ListaDeAtributos.get("Tamaño Crecimiento Por Iteracion (Variable)");
+            //System.out.println("Tamano Inicial = "+tamanoInicial+", tamano Maximo = "+tamanoMaximo+", tamanoCrecimiento = "+tamanoCrecimiento);
         }
         
         String gradoMultiprogramacion;
@@ -839,8 +841,9 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                     return false;
                 }
                 else{
-                    if ((tMaximo <=0) || (tMaximo >= ((int) pow(2,Main.bits_de_referencias - 20)))){
-                        MensajeError("El número ingresado en el campo del tamaño máximo debe ser mayor a 0 y menor al tamaño de la memoria virtual.","Error de entrada");
+                    if ((tMaximo <=0) || (tMaximo >= ((int) pow(2,bReferencia - 20)))){
+                        //System.out.println("    - tMaximo = "+tMaximo+", tamaño mem virtual = "+((int) pow(2,bReferencia - 20)));
+                        MensajeError("El número ingresado en el campo del tamaño máximo debe ser mayor a 0 y menor al tamaño de la memoria física.","Error de entrada");
                         return false;
                     }
                     else{
