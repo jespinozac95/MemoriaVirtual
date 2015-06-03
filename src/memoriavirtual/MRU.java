@@ -28,9 +28,15 @@ public class MRU {
                     posicionActual = -1;
                     break;                    
                 }
+                if (esApto(Main.memoria_fisica.get(n).contenido)==false){
+                    n++;
+                }
                 if(Main.memoria_fisica.get(n).esta_reservado==true){
                     System.out.println("Está reservado");
                     if (Main.memoria_fisica.get(n).contenido.esta_bloqueado){
+                        n++;
+                    }
+                    if (esApto(Main.memoria_fisica.get(n).contenido)==false){
                         n++;
                     }
                     else{
@@ -77,7 +83,13 @@ public class MRU {
                         if ((Main.memoria_fisica.get(n).identificador==actual.identificador)&&(Main.memoria_fisica.get(n).contenido.identificador!=actual.contenido.identificador)){
                             break;
                         }
-                        if(Main.memoria_fisica.get(n).esta_reservado==true){                            
+                        if (esApto(Main.memoria_fisica.get(n).contenido)==false){
+                            n++;
+                        }
+                        if(Main.memoria_fisica.get(n).esta_reservado==true){
+                                if (esApto(Main.memoria_fisica.get(n).contenido)==false){
+                                    n++;
+                                }
                                 if (actual.TS_ultima_referencia>Main.memoria_fisica.get(n).TS_ultima_referencia){
                                     n++;
                                 }
@@ -104,6 +116,19 @@ public class MRU {
             System.out.println("posicionActual  "+posicionActual);
             return posicionActual;
         }                
+    }
+    public boolean esApto(Proceso p){
+        //Main.tamaño_inicial    
+        int contador=0;
+        for (int i=0;i<Main.memoria_fisica.size();i++){            
+            if (Main.memoria_fisica.get(i).contenido.nombre.equals(p.nombre)){
+                contador++;
+            }           
+        }
+        if (contador <=Main.tamaño_inicial){
+            return false;
+        }
+        else{return true;}
     }
     
     public List<Frame> obtenerLocales(int idProceso){

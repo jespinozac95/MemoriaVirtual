@@ -16,7 +16,9 @@ public class FetchPolicy {
         while ((contadorFisica < Main.memoria_fisica.size()) && (contadorVirtual < Main.memoria_virtual.size())){
             if (Main.memoria_fisica.get(contadorFisica).proceso_reserva.equals(Main.memoria_virtual.get(contadorVirtual).contenido.nombre)){
                 //System.out.println("Consiguió el frame necesario para memoria fisica ["+contadorFisica+"] en memoria virtual ["+contadorVirtual+"].");
-                Main.memoria_fisica.set(contadorFisica, Main.memoria_virtual.get(contadorVirtual));
+                Frame f =  Main.memoria_virtual.get(contadorVirtual);
+                f.TS1 = System.nanoTime();
+                Main.memoria_fisica.set(contadorFisica,f);
                 contadorFisica ++;
                 contadorVirtual ++;
             }
@@ -45,9 +47,12 @@ public class FetchPolicy {
         }
     }
     public void fetch(int posicionVirtual, int posicionFisica, boolean modificacion){
-        Main.memoria_fisica.set(posicionFisica, Main.memoria_virtual.get(posicionVirtual));
-        Main.memoria_fisica.get(posicionFisica).esta_ocupado = true;
-        if (modificacion)
-            Main.memoria_fisica.get(posicionFisica).modificado = true;
+        if (posicionFisica != -1){
+            Main.memoria_fisica.set(posicionFisica, Main.memoria_virtual.get(posicionVirtual));
+            Main.memoria_fisica.get(posicionFisica).esta_ocupado = true;
+            Main.memoria_fisica.get(posicionFisica).TS_ultima_referencia = System.nanoTime();
+            if (modificacion)
+                Main.memoria_fisica.get(posicionFisica).modificado = true;
+        }
     }
 }

@@ -5,7 +5,6 @@
  */
 package memoriavirtual;
 
-import java.util.List;
 
 /**
  *
@@ -20,6 +19,9 @@ public class Clock {
             while (hayReemplazo==false){
                 if(posicionActual==(Main.memoria_fisica.size())-1){
                     posicionActual=Main.puntero_clock=0;
+                    if (esApto(Main.memoria_fisica.get(posicionActual).contenido)==false){
+                        posicionActual++;
+                    }
                     if ((Main.memoria_fisica.get(posicionActual).bitReloj==0)&&(Main.memoria_fisica.get(posicionActual).contenido.esta_bloqueado==false)){
                         Main.memoria_fisica.get(posicionActual).bitReloj=1;
                         Main.puntero_clock++;
@@ -50,6 +52,9 @@ public class Clock {
             while (hayReemplazo==false){
                 if(posicionActual==(Main.memoria_fisica.size())-1){
                     posicionActual=Main.puntero_clock=0;
+                    if (esApto(Main.memoria_fisica.get(posicionActual).contenido)==false){
+                        posicionActual++;
+                    }
                     if(proceso.identificador==Main.memoria_fisica.get(posicionActual).contenido.identificador){
                         if (Main.memoria_fisica.get(posicionActual).bitReloj==0){
                             Main.memoria_fisica.get(posicionActual).bitReloj=1;
@@ -81,6 +86,19 @@ public class Clock {
         System.out.println("posicionActual: "+posicionActual);
         return posicionActual;      
         }
+    }
+    public boolean esApto(Proceso p){
+        //Main.tama�o_inicial    
+        int contador=0;
+        for (int i=0;i<Main.memoria_fisica.size();i++){            
+            if (Main.memoria_fisica.get(i).contenido.nombre.equals(p.nombre)){
+                contador++;
+            }           
+        }
+        if (contador <=Main.tamaño_inicial){
+            return false;
+        }
+        else{return true;}
     }
 }
 

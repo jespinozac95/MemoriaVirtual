@@ -20,10 +20,17 @@ public class LRU {
             int n = 1;
             while(n<Main.memoria_fisica.size()){
                 if ((Main.memoria_fisica.get(n).identificador==actual.identificador)&&(Main.memoria_fisica.get(n).contenido.identificador!=actual.contenido.identificador)){
+                    posicionActual = -1;
                     break;
+                }
+                if (esApto(Main.memoria_fisica.get(n).contenido)==false){
+                    n++;
                 }
                 if(Main.memoria_fisica.get(n).esta_reservado==true){
                     if (Main.memoria_fisica.get(n).contenido.esta_bloqueado){
+                        n++;
+                    }
+                    if (esApto(Main.memoria_fisica.get(n).contenido)==false){
                         n++;
                     }
                     else{
@@ -57,9 +64,14 @@ public class LRU {
             Frame actual = Main.memoria_fisica.get(0);
             int n = 1;
             while(n<Main.memoria_fisica.size()){
-                if (proceso.identificador==Main.memoria_fisica.get(n).contenido.identificador){
+                //System.out.println();
+                if (proceso.nombre.equals(Main.memoria_fisica.get(n).contenido.nombre)){
                     if ((Main.memoria_fisica.get(n).identificador==actual.identificador)&&(Main.memoria_fisica.get(n).contenido.identificador!=actual.contenido.identificador)){
+                        posicionActual = -1;
                         break;
+                    }
+                    if (esApto(Main.memoria_fisica.get(n).contenido)==false){
+                        n++;
                     }
                     if(Main.memoria_fisica.get(n).esta_reservado==true){                        
                             if (actual.TS_ultima_referencia>Main.memoria_fisica.get(n).TS_ultima_referencia){
@@ -85,6 +97,19 @@ public class LRU {
             System.out.println("posicionActual: "+posicionActual);
             return posicionActual;
         } //termina while           
+    }
+    public boolean esApto(Proceso p){
+        //Main.tamaño_inicial    
+        int contador=0;
+        for (int i=0;i<Main.memoria_fisica.size();i++){            
+            if (Main.memoria_fisica.get(i).contenido.nombre.equals(p.nombre)){
+                contador++;
+            }           
+        }
+        if (contador <=Main.tamaño_inicial){
+            return false;
+        }
+        else{return true;}
     }
     
     public List<Frame> obtenerLocales(int idProceso){

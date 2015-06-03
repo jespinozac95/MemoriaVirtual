@@ -5,6 +5,8 @@
  */
 package memoriavirtual;
 
+import static memoriavirtual.Controlador.getIndiceFrameVirtual;
+
 /**
  *
  * @author Mauricio Gamboa C
@@ -42,7 +44,7 @@ public class ResidentSet {
     //Si no hay campo,sobre los no ocupados por el mismo si es local llamando a core
     //Sino lo hace reemplazo global llamando a global
     
-    public void ResidentSetVariableIncrementar(String nombre_proceso){
+    public void ResidentSetVariableIncrementar(String nombre_proceso, Frame f, boolean modificado){
         int cantidad_maxima =Main.tamaño_maximo; //Cambiarlo por la variable global
         int crecimiento=Main.crecimiento_por_reemplazo; // crecimiento igualarlo a la variable global. 
         int contador=0;
@@ -61,6 +63,7 @@ public class ResidentSet {
                     Main.global_convertido_fijo=true; 
                     // Busca el proceso buscaProceso(String nombreProceso) para el reemplazo
                     //llamar a reemplazo
+                    Controlador.Reemplazo(buscaProceso(nombre_proceso), f, modificado);
                 }
             }
             else if (Hay_desocupados()){
@@ -68,22 +71,30 @@ public class ResidentSet {
                 if (Main.placement_first_available==true){
                     
                     if ((FirstAvailable())!=-1){
-                    Main.memoria_fisica.get(FirstAvailable()).proceso_reserva= nombre_proceso; 
+                        int fa = FirstAvailable();
+                        Main.memoria_fisica.get(fa).proceso_reserva= nombre_proceso; 
                     //posiblemente fetch 
+                        FetchPolicy fp = new FetchPolicy();
+                        fp.fetch(Controlador.getIndiceFrameVirtual(f),fa, modificado);
                     }
                     else{
                     //llamar a reemplazo g o l
+                        Controlador.Reemplazo(buscaProceso(nombre_proceso), f, modificado);
                     }
                     
                 }
                 else{
                     if ((NextAvailable())!=-1){
+                        int na = NextAvailable();
                     Main.memoria_fisica.get(NextAvailable()).proceso_reserva= nombre_proceso; 
-                    Main.puntero_memoria_fisica=NextAvailable(); 
+                    Main.puntero_memoria_fisica=na; 
                     //fetch
+                        FetchPolicy fp = new FetchPolicy();
+                        fp.fetch(Controlador.getIndiceFrameVirtual(f),na, modificado);
                     }
                     else{
                     //llamar a reemplazo
+                        Controlador.Reemplazo(buscaProceso(nombre_proceso), f, modificado);
                     }
                 }
                 
@@ -91,7 +102,8 @@ public class ResidentSet {
             // No hay espacios en ningun lado
             else {
                 //reemplazo alcances globales o fijos 
-                //buscaProceso(nombre_proceso)        
+                //buscaProceso(nombre_proceso)      
+                Controlador.Reemplazo(buscaProceso(nombre_proceso), f, modificado);
             }
             
         }
@@ -101,7 +113,7 @@ public class ResidentSet {
     
     public int NextAvailable(){
         int posicionActual = Main.puntero_memoria_fisica+1;       
-        while(posicionActual!=Main.puntero_memoria_fisica){
+        while(posicionActual<Main.puntero_memoria_fisica){
             if (posicionActual==(Main.memoria_fisica.size())-1){
                 posicionActual = 0;
                 if (Main.memoria_fisica.get(posicionActual).contenido.esta_bloqueado==false){

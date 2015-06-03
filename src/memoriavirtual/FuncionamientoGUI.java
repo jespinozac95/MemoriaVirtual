@@ -6,6 +6,7 @@
 package memoriavirtual;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -239,10 +240,14 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_ResetButtonActionPerformed
 
     private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
+        Log l = new Log("Siguientes referencias",new Date());
+        Main.log.add(l);
+        Main.lineas_referencias_en_cuestion = new LinkedList<Referencia>();
         if (Main.lineas_archivos_referencias.isEmpty()){
             JOptionPane.showMessageDialog(new JFrame(), "Ya se cargaron todas las referencias del archivo especificado.");
         }
         else{
+            //System.out.println("Referencias totales = "+Main.lineas_archivos_referencias.size());
             for (int indice = 0; indice < Main.numero_referencias_por_iteracion; indice ++){
                 try{
                     //Obtener y seccionar Referencia
@@ -261,14 +266,16 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
                 }
             }
             //Quitar la referencia de la lista de referencias
+            //System.out.println("Referencias totales después de agregaciónes = "+Main.lineas_archivos_referencias.size());
             for (int i = 0; i < Main.numero_referencias_por_iteracion; i++){
                 try{
-                    Main.lineas_archivos_referencias.remove(Main.lineas_archivos_referencias.get(i));
+                    Main.lineas_archivos_referencias.remove(Main.lineas_archivos_referencias.get(0));
                 }
                 catch(Exception e){
                     
                 }
             }
+            //System.out.println("Referencias totales despues de quitarlas = "+Main.lineas_archivos_referencias.size());
             
             Controlador.ejecutarReferencias();
             
@@ -284,8 +291,8 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
             Main.mFisica.dispose();
             Main.mFisica = new MapMemoriaFisica();
             Main.mFisica.setVisible(true);
-            CargarTablaLog();
-            CargarTablaReferencias();
+            this.CargarTablaLog();
+            this.CargarTablaReferencias();
         }
     }//GEN-LAST:event_NextButtonActionPerformed
     
@@ -492,6 +499,7 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
     }
 
     private void CargarTablaReferencias() {
+        System.out.println("Entré a cargar referencias.");
         Object [][] infoTablaReferencias = new Object [Main.tamaño_memoria_fisica][8];
         try{for (int i = 0; i < Main.memoria_fisica.size(); i++){
             //System.out.println("i = "+i);
