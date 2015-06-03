@@ -38,6 +38,7 @@ public class Main {
     public static int tamaño_inicial;
     public static int tamaño_maximo;
     public static int crecimiento_por_reemplazo;
+    public static int puntero_memoria_fisica= 0; 
     
     public static boolean replacement_scope_global = false; //true si es global, false si es local
     public static boolean cleaning_demand = false; //true si es demand, false si es precleaning
