@@ -7,6 +7,7 @@ package memoriavirtual;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -231,12 +232,18 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
         this.dispose();
         Main.cleaning_demand = true; //para evitar que se siga haciendo precleaning
         Main.log.add(new Log(-1,"RESET",-1,false, new Date()));
-        VentanaInicio vi = new VentanaInicio();
-        vi.setVisible(true);
         Main.mFisica.dispose();
         Main.mVirtual.dispose();
         Main.mFisica = null;
         Main.mVirtual = null;
+        Main.lineas_archivos_procesos = new LinkedList<String>();
+        Main.lineas_archivos_referencias = new LinkedList<String>();
+        Main.lineas_referencias_en_cuestion = new LinkedList<Referencia>();
+        Main.lista_Procesos = new LinkedList<Proceso>();
+        Main.memoria_fisica = new LinkedList<Frame>(); //max: 16
+        Main.memoria_virtual = new LinkedList<Frame>(); //max: 128
+        VentanaInicio vi = new VentanaInicio();
+        vi.setVisible(true);
     }//GEN-LAST:event_ResetButtonActionPerformed
 
     private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
@@ -486,7 +493,9 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
                 }
                 return false;
             }
-            return true;
+            else{
+                return false;
+            }
         }
         catch(Exception e){
             String referencia = "";
@@ -501,12 +510,19 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
     private void CargarTablaReferencias() {
         System.out.println("Entré a cargar referencias.");
         Object [][] infoTablaReferencias = new Object [Main.tamaño_memoria_fisica][8];
-        try{for (int i = 0; i < Main.memoria_fisica.size(); i++){
+        for (int i = 0; i < Main.memoria_fisica.size(); i++){
             //System.out.println("i = "+i);
             infoTablaReferencias[i][0] = i;
+            if (Main.memoria_fisica.get(i).esta_ocupado){
             infoTablaReferencias[i][1]= Main.memoria_fisica.get(i).contenido.nombre;
-            infoTablaReferencias[i][2] = Main.memoria_fisica.get(i).identificador;
             infoTablaReferencias[i][3] = Main.memoria_fisica.get(i).contenido.esta_bloqueado;
+            }
+            else{
+                infoTablaReferencias[i][1]= Main.memoria_fisica.get(i).proceso_reserva;
+                infoTablaReferencias[i][3] = false;
+            }
+            infoTablaReferencias[i][2] = Main.memoria_fisica.get(i).identificador;
+            
             infoTablaReferencias[i][4] = Main.memoria_fisica.get(i).modificado;
             infoTablaReferencias[i][5] = Main.memoria_fisica.get(i).esta_reservado;
             infoTablaReferencias[i][6] = Main.memoria_fisica.get(i).TS1;
@@ -515,14 +531,12 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
         String[] columnas = new String[]{"Frame","Proceso","Página","Bit de Bloqueo","Dirty Bit (Modificación)","Reservado","TS de Creación","TS de Modificación"};
         
         TablaDeReferencias.setModel(new javax.swing.table.DefaultTableModel(infoTablaReferencias,columnas){});
-        }
-        catch(Exception e){
-        }
+        
     }
 
     private void CargarTablaLog() {
         Object [][] infoTablaLog = new Object [Main.log.size()][5];
-        try{for (int i = 0; i < Main.log.size(); i++){
+        for (int i = 0; i < Main.log.size(); i++){
             infoTablaLog[i][0] = Main.log.get(i).numero_referencia;
             infoTablaLog[i][1]= Main.log.get(i).proceso;
             infoTablaLog[i][2] = Main.log.get(i).frame_en_cuestion;
@@ -532,8 +546,7 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
         String[] columnas = new String[]{"# de Referencia","Proceso","Frame en Cuestión","Reemplazo","Time Stamp"};
         
         TablaDeLog.setModel(new javax.swing.table.DefaultTableModel(infoTablaLog,columnas){});
-        }
-        catch(Exception e){
-        }
+        
+        
     }
 }

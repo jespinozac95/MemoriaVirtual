@@ -20,7 +20,7 @@ public class Frame {
     public Proceso contenido;
     public boolean esta_reservado=false;
     public String proceso_reserva;
-    public boolean esta_ocupado; 
+    public boolean esta_ocupado=false; 
     public int tamano;
     public int[][] localizacion = new int[1][3]; //ubicacion_memoriaF
     public long TS1;

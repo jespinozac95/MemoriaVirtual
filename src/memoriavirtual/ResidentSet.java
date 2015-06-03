@@ -15,9 +15,11 @@ public class ResidentSet {
     
     public void ResidentSetFijo(){ //cubre caso inicial de ambos: tamaño fijo y variable
         for (Proceso p : Main.lista_Procesos){
+            System.out.println("*****RS Fijo, proeso: "+p.nombre);
             int i = 0;
-            try{
+            if (Main.resident_set_management_fixed){
                 while(i < Main.tamaño_fijo){
+                    System.out.println("*****tamano fijo");
                     if (Main.memoria_fisica.size()<Main.tamaño_memoria_fisica){
                         Frame f = new Frame(true,p.nombre);
                         Main.memoria_fisica.add(f);
@@ -25,13 +27,16 @@ public class ResidentSet {
                     i++;
                 }
             }
-            catch(Exception e){
+            else{
+                System.out.println(p.nombre+", Main.tamano inicial = "+Main.tamaño_inicial);
                 while(i < Main.tamaño_inicial){
+                    System.out.println("*****tamano variable");
                     if (Main.memoria_fisica.size()<Main.tamaño_memoria_fisica){
                         Frame f = new Frame(true,p.nombre);
                         Main.memoria_fisica.add(f);
+                        System.out.println("        Frame creado en reserva para: "+f.proceso_reserva);
                     }
-                i++;
+                    i++;
                 }
             }
         }
@@ -114,7 +119,10 @@ public class ResidentSet {
     public int NextAvailable(){
         int posicionActual = Main.puntero_memoria_fisica+1;       
         while(posicionActual<Main.puntero_memoria_fisica){
-            if (posicionActual==(Main.memoria_fisica.size())-1){
+            if (Main.memoria_fisica.get(posicionActual).esta_reservado){
+                return posicionActual;
+            }
+            else if (posicionActual==(Main.memoria_fisica.size())-1){
                 posicionActual = 0;
                 if (Main.memoria_fisica.get(posicionActual).contenido.esta_bloqueado==false){
                     return posicionActual;
@@ -174,9 +182,15 @@ public class ResidentSet {
     
     public int FirstAvailable(){
         for (int i = 0; i < Main.memoria_fisica.size(); i++ ) {
-                    if ((Main.memoria_fisica.get(i).contenido.esta_bloqueado)==false){ //Pinky al colocarlo poner el ocupado en verdadero
+                    try{
+                            if ((Main.memoria_fisica.get(i).contenido.equals(null)) || ((Main.memoria_fisica.get(i).contenido.esta_bloqueado)==false)){ //Pinky al colocarlo poner el ocupado en verdadero
                         return i; 
                         
+                    }
+                    }
+                    catch(Exception e){
+                        if (Main.memoria_fisica.get(i).esta_reservado)
+                            return i;
                     }
                 }
         return -1; 

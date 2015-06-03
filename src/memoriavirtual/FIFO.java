@@ -117,7 +117,7 @@ public class FIFO {
                 contador++;
             }           
         }
-        if (contador <=Main.tama�o_inicial){
+        if (contador <=Main.tamaño_inicial){
             return false;
         }
         else{return true;}

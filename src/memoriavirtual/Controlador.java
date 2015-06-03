@@ -15,11 +15,29 @@ import javax.swing.JOptionPane;
  */
 public class Controlador {
     //Clase que controla la ejecución de referencias, manda a llamar métodos de las políticas Fetch, Placement, Replacement, Cleaning Demand
+    
+    public static boolean todosMemoriaFisicaReservados(){
+        for (Frame f : Main.memoria_fisica){
+            if (!f.esta_reservado)
+                System.out.println("memoriafisica con un no reservado en: "+f.identificador);
+                return false;
+        }
+        System.out.println("memoriafisica llena de reservados");
+        return true;
+    }
     public static boolean memoriaFisicaLlena(){
         boolean llena = true;
+        if (Main.memoria_fisica.isEmpty()){
+            return false;
+        }
+        if (todosMemoriaFisicaReservados())
+            return false;
         for (Frame f : Main.memoria_fisica){
-            if (!f.esta_ocupado)
+            System.out.println("f.identificador = "+f.identificador);
+            if (!f.esta_ocupado){
                 llena = false;
+                return llena;
+            }    
         }
         return llena;
     }
@@ -67,6 +85,7 @@ public class Controlador {
                 fp.prepaging();
                 l = new Log("Fetch Policy cargada",new Date());
                 Main.log.add(l);
+                System.out.println("FETCH POLICY REALIZADA");
                 //System.out.println("Se realizó fetch prepaging");
             }
         }
@@ -79,7 +98,8 @@ public class Controlador {
                 JOptionPane.showMessageDialog(new JFrame(), "La referencia leída especifica un tamaño mayor al del proceso que utiliza.");
             }
             else{
-                if ((Main.resident_set_management_fixed) && (!memoriaFisicaLlena())){//placement manual
+                //---------------------------------------------------------------------------------------------------------
+                if (!(Main.resident_set_management_fixed) && (!memoriaFisicaLlena())){//placement manual
                     FetchPolicy fpi = new FetchPolicy();
                     ResidentSet rset= new ResidentSet();
                     //if ya está, no le haga nada
@@ -96,8 +116,13 @@ public class Controlador {
                             Main.log.add(l);
                         }
                     }
-                    else if (Main.placement_first_available){
-                        if (r.tipo_ejecucion=='w'){
+                    else if (Main.placement_first_available){//Placement first avaiable
+                        System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
+                        if (rset.FirstAvailable() == -1){
+                            //Hacer reemplazo
+                        }
+                        else if (r.tipo_ejecucion=='w'){
+                            //Manejo del -1 que tira el rset.FA
                             fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.FirstAvailable(), true);
                             Log l = new Log(r.id_proceso,p.nombre+"-Placement",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
                             Main.log.add(l);
@@ -110,8 +135,12 @@ public class Controlador {
                             System.out.println("Placement sin write.");
                         }
                     }
-                    else{
-                        if (r.tipo_ejecucion=='w'){
+                    else{//Placement next avaiable
+                        System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
+                        if (rset.NextAvailable() == -1){
+                            
+                        }
+                        else if (r.tipo_ejecucion=='w'){
                             fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.NextAvailable(),true);
                             Log l = new Log(r.id_proceso,p.nombre+"-PlacementNextAv",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
                             Main.log.add(l);
@@ -125,6 +154,64 @@ public class Controlador {
                         }
                     }
                 }
+                //---------------------------------------------------------------------------------------------------------
+                else if ((Main.resident_set_management_fixed) && (!memoriaFisicaLlena())){//placement manual
+                    FetchPolicy fpi = new FetchPolicy();
+                    ResidentSet rset= new ResidentSet();
+                    //if ya está, no le haga nada
+                    if (yaEstaEnFisica(frameNecesitado(r.tamano,p))){
+                        System.out.println("No hay necesidad de hacer placement ni replacement.");
+                        if (r.tipo_ejecucion=='w'){
+                            Main.memoria_fisica.get(indiceEnFisica(frameNecesitado(r.tamano,p))).modificado = true;
+                            Log l = new Log(r.id_proceso,p.nombre+"-Referencia",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
+                            Main.log.add(l);
+                        }
+                        else{
+                            Main.memoria_fisica.get(indiceEnFisica(frameNecesitado(r.tamano,p))).modificado = false;
+                            Log l = new Log(r.id_proceso,p.nombre+"-Referencia",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
+                            Main.log.add(l);
+                        }
+                    }
+                    else if (Main.placement_first_available){//Placement first avaiable
+                        if (rset.FirstAvailable() == -1){
+                            
+                        }
+                        else if (r.tipo_ejecucion=='w'){
+                            System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
+                        fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.FirstAvailable(), true);
+                            Log l = new Log(r.id_proceso,p.nombre+"-Placement",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
+                            Main.log.add(l);
+                            System.out.println("Placement con write.");
+                        }
+                        else{
+                            System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
+                            fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.FirstAvailable(), false);
+                            Log l = new Log(r.id_proceso,p.nombre+"-Placement",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
+                            Main.log.add(l);
+                            System.out.println("Placement sin write.");
+                        }
+                    }
+                    else{//Placement next avaiable
+                        if (rset.NextAvailable() == -1){
+                            
+                        }
+                        else if (r.tipo_ejecucion=='w'){
+                            System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
+                            fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.NextAvailable(),true);
+                            Log l = new Log(r.id_proceso,p.nombre+"-PlacementNextAv",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
+                            Main.log.add(l);
+                            System.out.println("Placement con write.");
+                        }
+                        else{
+                            System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
+                            fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.NextAvailable(),false);
+                            Log l = new Log(r.id_proceso,p.nombre+"-PlacementNextAv",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
+                            Main.log.add(l);
+                            System.out.println("Placement con write.");
+                        }
+                    }
+                }
+                //---------------------------------------------------------------------------------------------------------
                 else if ((Main.resident_set_management_fixed) && (memoriaFisicaLlena())){//reemplazo manual
                     if (r.tipo_ejecucion=='w'){
                         Controlador.Reemplazo(p, frameNecesitado(r.tamano,p), true);
@@ -139,18 +226,20 @@ public class Controlador {
                         System.out.println("Replacement sin write.");
                     }
                 }
-                else{
+                //---------------------------------------------------------------------------------------------------------
+                else{//RS set variable
+                    System.out.println("------------MemFisica llena ="+memoriaFisicaLlena());
                     ResidentSet rset = new ResidentSet();
                     if (r.tipo_ejecucion=='w'){
                         rset.ResidentSetVariableIncrementar(p.nombre,frameNecesitado(r.tamano,p),true);
-                        Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
+                        Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo(Variable)*(No reemplazo siempre)",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
                             Main.log.add(l);
-                        System.out.println("Resident set con write.");
+                            System.out.println("Resident set con write.*(No reemplazo siempre)");
                         }
                         else{
-                        System.out.println("Resident set sin write.");
+                        System.out.println("Resident set sin write.*(No reemplazo siempre)");
                         rset.ResidentSetVariableIncrementar(p.nombre,frameNecesitado(r.tamano,p),false);
-                        Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
+                        Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo(Variable)*(No reemplazo siempre)",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
                             Main.log.add(l);
                         }
                         
