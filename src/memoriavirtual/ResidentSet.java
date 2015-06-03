@@ -11,44 +11,7 @@ package memoriavirtual;
  */
 public class ResidentSet {
     
-    public void ResidentSetFijo(int tamano_fijo) {  
-        //Validar que no se sobrepase la cantidad de frames en memoria física
-        int contador=0; 
-        int cantidad_maxima_frames = tamano_fijo;
-        String nombre_proceso = Main.memoria_virtual.get(0).contenido.nombre; 
-        //System.out.println("Nombre Primer Proceso: "+nombre_proceso);
-        int ubicacion_fisica=0; 
-        for (int i = 0; i < Main.lista_Procesos.size() * Main.tamaño_fijo; i++ ) {
-            // Initialize each object
-            if (Main.memoria_fisica.size()<Main.tamaño_memoria_fisica){
-            if ((contador < cantidad_maxima_frames) && (Main.lista_Procesos.get(i/Main.tamaño_fijo).nombre.equalsIgnoreCase(nombre_proceso))){
-                //System.out.println("Primer If, Nombre proceso: "+nombre_proceso+" - Contador: "+contador);
-                Frame espacio_reservado = new Frame(true,nombre_proceso);
-                Main.memoria_fisica.add(ubicacion_fisica,espacio_reservado); 
-                ubicacion_fisica++; 
-                contador++; 
-            }
-            else if ((contador < cantidad_maxima_frames) & (!(Main.lista_Procesos.get(i/Main.tamaño_fijo).nombre.equalsIgnoreCase(nombre_proceso)))){ 
-                Frame espacio_reservado = new Frame(true,nombre_proceso);
-                Main.memoria_fisica.add(ubicacion_fisica,espacio_reservado); 
-                contador++; 
-                ubicacion_fisica++; 
-                
-            }
-            else{
-                if (!(Main.lista_Procesos.get(i/Main.tamaño_fijo).nombre.equalsIgnoreCase(nombre_proceso))){
-                    nombre_proceso=Main.memoria_virtual.get(i).contenido.nombre; 
-                    Frame espacio_reservado = new Frame(true,nombre_proceso);
-                    Main.memoria_fisica.add(ubicacion_fisica,espacio_reservado);
-                    contador=1; 
-                    ubicacion_fisica++; 
-                }
-            }
-        }
-        }
-    }
-    
-    public void ResidentSetFijo2(){ //cubre caso inicial de ambos: tamaño fijo y variable
+    public void ResidentSetFijo(){ //cubre caso inicial de ambos: tamaño fijo y variable
         for (Proceso p : Main.lista_Procesos){
             int i = 0;
             try{
@@ -70,7 +33,9 @@ public class ResidentSet {
                 }
             }
         }
+        Main.puntero_memoria_fisica=Main.memoria_fisica.size()-1; 
     }
+
     
     //Si hay espacio de sobra le doy, en primera instancia vacios totalmente
     //En segunda a los que estan reservados pero no ocupados ni bloqueados > LLamo a place(First y Next). 
@@ -89,10 +54,12 @@ public class ResidentSet {
                     Frame espacio_reservado = new Frame(true,nombre_proceso);
                     Main.memoria_fisica.add(espacio_reservado);
                     crecimiento--; 
+                    Main.puntero_memoria_fisica=Main.memoria_fisica.size()-1; 
                 }
                 //alcanzó el máximo, no puede crecer más
                 else{           
                     Main.global_convertido_fijo=true; 
+                    // Busca el proceso buscaProceso(String nombreProceso) para el reemplazo
                     //llamar a reemplazo
                 }
             }
@@ -100,10 +67,20 @@ public class ResidentSet {
                 // si no hay desocupados desbloqueados, hace reemplazo 
                 if (Main.placement_first_available==true){
                     
+                    if ((FirstAvailable())!=-1){
+                    Main.memoria_fisica.get(FirstAvailable()).proceso_reserva= nombre_proceso; 
+                    //posiblemente fetch 
+                    }
+                    else{
+                    //llamar a reemplazo g o l
+                    }
+                    
                 }
                 else{
                     if ((NextAvailable())!=-1){
                     Main.memoria_fisica.get(NextAvailable()).proceso_reserva= nombre_proceso; 
+                    Main.puntero_memoria_fisica=NextAvailable(); 
+                    //fetch
                     }
                     else{
                     //llamar a reemplazo
@@ -113,13 +90,12 @@ public class ResidentSet {
             }
             // No hay espacios en ningun lado
             else {
-                //reemplazo
-                        
+                //reemplazo alcances globales o fijos 
+                //buscaProceso(nombre_proceso)        
             }
             
         }
-            
-        
+
     }
            
     
@@ -184,16 +160,14 @@ public class ResidentSet {
     }
     
     
-    public void PrimeroDisponible(String nombre_proceso){
+    public int FirstAvailable(){
         for (int i = 0; i < Main.memoria_fisica.size(); i++ ) {
-                    if ((Main.memoria_fisica.get(i).esta_ocupado)==false){ //Pinky al colocarlo poner el ocupado en verdadero
-                        //&(!(Main.memoria_fisica.get(i).contenido.esta_bloqueado))
-                        System.out.println("Yeahh");
-                        System.out.println("Yeah "+Main.memoria_fisica.get(i));
-                        Main.memoria_fisica.get(i).proceso_reserva= nombre_proceso;  
-                        break; 
+                    if ((Main.memoria_fisica.get(i).contenido.esta_bloqueado)==false){ //Pinky al colocarlo poner el ocupado en verdadero
+                        return i; 
+                        
                     }
                 }
+        return -1; 
         
     }
     
