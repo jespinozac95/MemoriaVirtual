@@ -20,23 +20,23 @@ public class Clock {
             while (hayReemplazo==false){
                 if(posicionActual==(Main.memoria_fisica.size())-1){
                     posicionActual=Main.puntero_clock=0;
-                    if (Main.memoria_fisica.get(posicionActual).bitReloj==0){
+                    if ((Main.memoria_fisica.get(posicionActual).bitReloj==0)&&(Main.memoria_fisica.get(posicionActual).contenido.esta_bloqueado==false)){
                         Main.memoria_fisica.get(posicionActual).bitReloj=1;
                         Main.puntero_clock++;
                         hayReemplazo=true;
                     }
-                    else if (Main.memoria_fisica.get(posicionActual).bitReloj==1){
+                    else if ((Main.memoria_fisica.get(posicionActual).bitReloj==1)&&(Main.memoria_fisica.get(posicionActual).contenido.esta_bloqueado==false)){
                         Main.memoria_fisica.get(posicionActual).bitReloj=0;
                         posicionActual++;
                     }
                 }
                 else{
-                    if (Main.memoria_fisica.get(posicionActual).bitReloj==0){
+                    if ((Main.memoria_fisica.get(posicionActual).bitReloj==0)&&(Main.memoria_fisica.get(posicionActual).contenido.esta_bloqueado==false)){
                         Main.memoria_fisica.get(posicionActual).bitReloj=1;
                         Main.puntero_clock++;
                         hayReemplazo=true;
                     }
-                    else if (Main.memoria_fisica.get(posicionActual).bitReloj==1){
+                    else if ((Main.memoria_fisica.get(posicionActual).bitReloj==1)&&(Main.memoria_fisica.get(posicionActual).contenido.esta_bloqueado==false)){
                         Main.memoria_fisica.get(posicionActual).bitReloj=0;
                         posicionActual++;
                     }
@@ -77,6 +77,7 @@ public class Clock {
                     }
                 }  
             }  
+	Main.global_convertido_fijo=false;
         System.out.println("posicionActual: "+posicionActual);
         return posicionActual;      
         }

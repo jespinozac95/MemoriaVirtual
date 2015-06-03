@@ -47,6 +47,7 @@ public class LRU {
                     n++;                    
                 }
             }
+           Main.global_convertido_fijo=false;
            System.out.println("posicionActual: "+posicionActual);
            return posicionActual;
         }    
@@ -60,11 +61,7 @@ public class LRU {
                     if ((Main.memoria_fisica.get(n).identificador==actual.identificador)&&(Main.memoria_fisica.get(n).contenido.identificador!=actual.contenido.identificador)){
                         break;
                     }
-                    if(Main.memoria_fisica.get(n).esta_reservado==true){
-                        if (Main.memoria_fisica.get(n).contenido.esta_bloqueado){
-                            n++;
-                        }
-                        else{
+                    if(Main.memoria_fisica.get(n).esta_reservado==true){                        
                             if (actual.TS_ultima_referencia>Main.memoria_fisica.get(n).TS_ultima_referencia){
                                 actual = Main.memoria_fisica.get(n);
                                 n++;
@@ -84,10 +81,10 @@ public class LRU {
                         posicionActual = n;
                     }
                 }
-            }//termina while
+            
             System.out.println("posicionActual: "+posicionActual);
             return posicionActual;
-        }                
+        } //termina while           
     }
     
     public List<Frame> obtenerLocales(int idProceso){

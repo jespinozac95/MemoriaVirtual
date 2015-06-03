@@ -323,8 +323,8 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
                 + "\n\n   - Ventana Muestreo General: Contiene dos elementos.\n"
                 + "         * Tabla de Referencias: es un espejo del estado de la memoria virtual en ejecución (muestra varias columnas referentes a cada frame disponible de la memoria física).\n"
                 + "         * Log de Actividad: muestra cada operación de Placement, Reemplazo y Cleaning realizada al cargar las "+Main.numero_referencias_por_iteracion+" referencias por iteración.\n\n"
-                + "   - Ventana Map Memoria Física: muestra un gráfico de la memoria física al momento.\n     Cada cuadro corresponde a un frame. Los cuadros negros son frames vacíos o asignados a páginas de procesos que no están en modificación (dirty) o bloqueados.\n"
-                + "     Los cuadros rojos son frames que corresponden a páginas en modificación (dirty) de procesos.\n     Los cuadros azules corresponden a páginas de procesos bloqueados."
+                + "   - Ventana Map Memoria Física: muestra un gráfico de la memoria física al momento.\n     Cada cuadro corresponde a un frame. \n     Los cuadros negros son frames vacíos o asignados a páginas de procesos que no están en modificación (dirty) o bloqueados.\n"
+                + "     Los cuadros rojos son frames que corresponden a páginas en modificación (dirty) de procesos.\n     Los cuadros azules corresponden a páginas de procesos bloqueados.\n     Los cuadros verdes corresponden a páginas reservadas para los procesos."
                 + "\n\n   - Ventana Map Memoria Virtual: muestra la distribución de las páginas de los procesos cargados en la memoria virtual.","Ayuda - Muestreo General",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_General1ActionPerformed
 

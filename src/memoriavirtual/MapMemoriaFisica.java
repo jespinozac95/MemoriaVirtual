@@ -42,14 +42,17 @@ public class MapMemoriaFisica extends JFrame {
             plano_y += 100;
             Color c = Color.BLACK;
             if (!Main.memoria_fisica.isEmpty()){
+                try{
+                if (Main.memoria_fisica.get(i).esta_reservado)
+                    c = Color.GREEN;
                 // if modificado == 1 Color.Red
-                try{if (Main.memoria_fisica.get(i).modificado)
+                else if (Main.memoria_fisica.get(i).modificado)
                     c = Color.RED;
                 // if bloqueado == 1 Color.Blue
-                if (Main.memoria_fisica.get(i).contenido.esta_bloqueado)
+                else if (Main.memoria_fisica.get(i).contenido.esta_bloqueado)
                     c = Color.BLUE;
                 // if esta_reservado == 1 Color.Green
-                if (Main.memoria_fisica.get(i).esta_reservado)
+                else if (Main.memoria_fisica.get(i).esta_reservado)
                     c = Color.GREEN;
                 }
                 catch(Exception e){}
@@ -61,14 +64,16 @@ public class MapMemoriaFisica extends JFrame {
             Color c = Color.BLACK;
             if (!Main.memoria_fisica.isEmpty()){
                 try{
+                if (Main.memoria_fisica.get(i).esta_reservado)
+                    c = Color.GREEN;
                 // if modificado == 1 Color.Red
-                if (Main.memoria_fisica.get(i).modificado)
+                else if (Main.memoria_fisica.get(i).modificado)
                     c = Color.RED;
                 // if bloqueado == 1 Color.Blue
-                if (Main.memoria_fisica.get(i).contenido.esta_bloqueado)
+                else if (Main.memoria_fisica.get(i).contenido.esta_bloqueado)
                     c = Color.BLUE;
                 // if esta_reservado == 1 Color.Green
-                if (Main.memoria_fisica.get(i).esta_reservado)
+                else if (Main.memoria_fisica.get(i).esta_reservado)
                     c = Color.GREEN;
                 }
                 catch(Exception e){}

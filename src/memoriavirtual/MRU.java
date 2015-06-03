@@ -77,11 +77,7 @@ public class MRU {
                         if ((Main.memoria_fisica.get(n).identificador==actual.identificador)&&(Main.memoria_fisica.get(n).contenido.identificador!=actual.contenido.identificador)){
                             break;
                         }
-                        if(Main.memoria_fisica.get(n).esta_reservado==true){
-                            if (Main.memoria_fisica.get(n).contenido.esta_bloqueado){
-                                n++;
-                            }
-                            else{
+                        if(Main.memoria_fisica.get(n).esta_reservado==true){                            
                                 if (actual.TS_ultima_referencia>Main.memoria_fisica.get(n).TS_ultima_referencia){
                                     n++;
                                 }
@@ -91,7 +87,7 @@ public class MRU {
                                     n++;                            
                                 }
                             }
-                        }
+                        
                         else if (actual.TS_ultima_referencia>Main.memoria_fisica.get(n).TS_ultima_referencia){                    
                             n++;
                         }
@@ -104,6 +100,7 @@ public class MRU {
                     else{n++;}
                 }
             }
+	    Main.global_convertido_fijo=false;
             System.out.println("posicionActual  "+posicionActual);
             return posicionActual;
         }                

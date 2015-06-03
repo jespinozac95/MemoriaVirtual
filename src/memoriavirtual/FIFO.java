@@ -56,6 +56,7 @@ public class FIFO {
         }    
         
         else {
+            //local
             int posicionActual = 0;
             int id_proceso = proceso.identificador;            
             Frame actual = Main.memoria_fisica.get(0);
@@ -65,11 +66,7 @@ public class FIFO {
                     if ((Main.memoria_fisica.get(n).identificador==actual.identificador)&&(Main.memoria_fisica.get(n).contenido.identificador!=actual.contenido.identificador)){
                         break;
                     }
-                    if(Main.memoria_fisica.get(n).esta_reservado==true){
-                        if (Main.memoria_fisica.get(n).contenido.esta_bloqueado){
-                            n++;
-                        } //Más viejo menor
-                        else{
+                    if(Main.memoria_fisica.get(n).esta_reservado==true){                        
                             if (actual.TS1<Main.memoria_fisica.get(n).TS1){
                                 n++;
                             }
@@ -88,9 +85,10 @@ public class FIFO {
                         posicionActual = n;
                         n++;                    
                     }                
-                }
+                
                 else{n++;}
             }
+	    Main.global_convertido_fijo=false;
             System.out.println("posicionActual: "+posicionActual);
             return posicionActual;
         }                
@@ -109,6 +107,18 @@ public class FIFO {
         return listaLocal;
     }
 
+    
+    
+    public Proceso buscaProceso(String nombreProceso){
+        for (int i=0;i<Main.memoria_virtual.size();i++){
+            if (nombreProceso.equals(Main.lista_Procesos.get(i).nombre)){
+                return Main.memoria_virtual.get(i).contenido;
+            }            
+        } 
+        return null;
+    }
+    
+    
 }
 
 
