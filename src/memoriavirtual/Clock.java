@@ -54,9 +54,11 @@ public class Clock {
             while (hayReemplazo==false){
                 System.out.println("Entre a while");
                 if(posicionActual==(Main.memoria_fisica.size())-1){
+                    System.out.println("posicionActual y el tamano dela vara son iguales");
                     posicionActual=Main.puntero_clock=0;
-                    if ((!Main.memoria_fisica.get(posicionActual).esta_reservado)&&(esApto(Main.memoria_fisica.get(posicionActual).contenido)==false)){
+                    if ((Main.memoria_fisica.get(posicionActual).esta_reservado)||(esApto(Main.memoria_fisica.get(posicionActual).contenido)==false)){                                                
                         posicionActual++;
+                        System.out.println("posicionActal: "+posicionActual);
                     }
                     if((!Main.memoria_fisica.get(posicionActual).esta_reservado)&&(proceso.identificador==Main.memoria_fisica.get(posicionActual).contenido.identificador)){
                         if (Main.memoria_fisica.get(posicionActual).bitReloj==0){
