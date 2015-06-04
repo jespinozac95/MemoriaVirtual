@@ -119,7 +119,7 @@ public class ResidentSet {
     public int NextAvailable(){
         int posicionActual = Main.puntero_memoria_fisica+1;       
         while(posicionActual<Main.puntero_memoria_fisica){
-            if (Main.memoria_fisica.get(posicionActual).esta_reservado){
+            if ((Main.memoria_fisica.get(posicionActual).esta_reservado) && (Main.memoria_fisica.get(posicionActual).proceso_reserva.equals(Main.procesoManejado))){
                 return posicionActual;
             }
             else if (posicionActual==(Main.memoria_fisica.size())-1){
@@ -184,13 +184,16 @@ public class ResidentSet {
         for (int i = 0; i < Main.memoria_fisica.size(); i++ ) {
                     try{
                             if ((Main.memoria_fisica.get(i).contenido.equals(null)) || ((Main.memoria_fisica.get(i).contenido.esta_bloqueado)==false)){ //Pinky al colocarlo poner el ocupado en verdadero
-                        return i; 
+                                System.out.println("*-*-*-*No está ocupado posicion: "+i+", esta bloqueado = "+Main.memoria_fisica.get(i).contenido.esta_bloqueado);
+                                return i; 
                         
                     }
                     }
                     catch(Exception e){
-                        if (Main.memoria_fisica.get(i).esta_reservado)
+                        if ((Main.memoria_fisica.get(i).esta_reservado) && (Main.memoria_fisica.get(i).proceso_reserva.equals(Main.procesoManejado))){
+                            System.out.println("*-*-*-*está reservado posicion: "+i);
                             return i;
+                        }
                     }
                 }
         return -1; 

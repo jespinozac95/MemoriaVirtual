@@ -48,11 +48,19 @@ public class FetchPolicy {
     }
     public void fetch(int posicionVirtual, int posicionFisica, boolean modificacion){
         if (posicionFisica != -1){
+            System.out.println("HA ENTRADO AL FETCH, modificacion = "+modificacion);
             Main.memoria_fisica.set(posicionFisica, Main.memoria_virtual.get(posicionVirtual));
             Main.memoria_fisica.get(posicionFisica).esta_ocupado = true;
-            Main.memoria_fisica.get(posicionFisica).TS_ultima_referencia = System.nanoTime();
-            if (modificacion)
+            Main.memoria_fisica.get(posicionFisica).esta_reservado = false;
+            
+            Main.memoria_fisica.get(posicionFisica).contenido = Main.memoria_virtual.get(posicionVirtual).contenido;
+            if (Main.memoria_fisica.get(posicionFisica).TS1==0)
+                Main.memoria_fisica.get(posicionFisica).TS1 = System.nanoTime();
+            if (modificacion){
+                System.out.println("-------****** Referencia para memoria fisica: "+posicionFisica+", modificacion = w");
                 Main.memoria_fisica.get(posicionFisica).modificado = true;
+                Main.memoria_fisica.get(posicionFisica).TS_ultima_referencia = System.nanoTime();
+            }
         }
     }
 }

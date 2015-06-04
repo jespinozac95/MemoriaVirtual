@@ -118,17 +118,32 @@ public class Controlador {
                     }
                     else if (Main.placement_first_available){//Placement first avaiable
                         System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
+                        Main.procesoManejado = p.nombre;
                         if (rset.FirstAvailable() == -1){
                             //Hacer reemplazo
+                            if (r.tipo_ejecucion=='w'){
+                                Controlador.Reemplazo(p, frameNecesitado(r.tamano,p), true);
+                                Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
+                                    Main.log.add(l);
+                                System.out.println("Replacement con write.");
+                            }
+                                else{
+                                Controlador.Reemplazo(p, frameNecesitado(r.tamano,p), false);
+                                Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
+                                    Main.log.add(l);
+                                System.out.println("Replacement sin write.");
+                            }
                         }
                         else if (r.tipo_ejecucion=='w'){
                             //Manejo del -1 que tira el rset.FA
+                            Main.procesoManejado = p.nombre;
                             fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.FirstAvailable(), true);
                             Log l = new Log(r.id_proceso,p.nombre+"-Placement",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
                             Main.log.add(l);
                             System.out.println("Placement con write.");
                         }
                         else{
+                            Main.procesoManejado = p.nombre;
                             fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.FirstAvailable(), false);
                             Log l = new Log(r.id_proceso,p.nombre+"-Placement",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
                             Main.log.add(l);
@@ -137,16 +152,31 @@ public class Controlador {
                     }
                     else{//Placement next avaiable
                         System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
+                        Main.procesoManejado = p.nombre;
                         if (rset.NextAvailable() == -1){
-                            
+                            //HACER REEMPLAZO
+                            if (r.tipo_ejecucion=='w'){
+                                Controlador.Reemplazo(p, frameNecesitado(r.tamano,p), true);
+                                Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
+                                    Main.log.add(l);
+                                System.out.println("Replacement con write.");
+                            }
+                                else{
+                                Controlador.Reemplazo(p, frameNecesitado(r.tamano,p), false);
+                                Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
+                                    Main.log.add(l);
+                                System.out.println("Replacement sin write.");
+                            }
                         }
                         else if (r.tipo_ejecucion=='w'){
+                            Main.procesoManejado = p.nombre;
                             fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.NextAvailable(),true);
                             Log l = new Log(r.id_proceso,p.nombre+"-PlacementNextAv",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
                             Main.log.add(l);
                             System.out.println("Placement con write.");
                         }
                         else{
+                            Main.procesoManejado = p.nombre;
                             fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.NextAvailable(),false);
                             Log l = new Log(r.id_proceso,p.nombre+"-PlacementNextAv",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
                             Main.log.add(l);
@@ -173,10 +203,24 @@ public class Controlador {
                         }
                     }
                     else if (Main.placement_first_available){//Placement first avaiable
+                        Main.procesoManejado = p.nombre;
                         if (rset.FirstAvailable() == -1){
-                            
+                            //HACER REEMPLAZO
+                            if (r.tipo_ejecucion=='w'){
+                                Controlador.Reemplazo(p, frameNecesitado(r.tamano,p), true);
+                                Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
+                                    Main.log.add(l);
+                                System.out.println("Replacement con write.");
+                            }
+                                else{
+                                Controlador.Reemplazo(p, frameNecesitado(r.tamano,p), false);
+                                Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
+                                    Main.log.add(l);
+                                System.out.println("Replacement sin write.");
+                            }
                         }
                         else if (r.tipo_ejecucion=='w'){
+                            Main.procesoManejado = p.nombre;
                             System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
                         fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.FirstAvailable(), true);
                             Log l = new Log(r.id_proceso,p.nombre+"-Placement",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
@@ -184,6 +228,7 @@ public class Controlador {
                             System.out.println("Placement con write.");
                         }
                         else{
+                            Main.procesoManejado = p.nombre;
                             System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
                             fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.FirstAvailable(), false);
                             Log l = new Log(r.id_proceso,p.nombre+"-Placement",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
@@ -192,10 +237,24 @@ public class Controlador {
                         }
                     }
                     else{//Placement next avaiable
+                        Main.procesoManejado = p.nombre;
                         if (rset.NextAvailable() == -1){
-                            
+                            //HACER REEMPLAZO
+                            if (r.tipo_ejecucion=='w'){
+                                Controlador.Reemplazo(p, frameNecesitado(r.tamano,p), true);
+                                Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
+                                    Main.log.add(l);
+                                System.out.println("Replacement con write.");
+                            }
+                                else{
+                                Controlador.Reemplazo(p, frameNecesitado(r.tamano,p), false);
+                                Log l = new Log(r.id_proceso,p.nombre+"-Reemplazo",indiceEnFisica(frameNecesitado(r.tamano,p)),true,new Date());
+                                    Main.log.add(l);
+                                System.out.println("Replacement sin write.");
+                            }
                         }
                         else if (r.tipo_ejecucion=='w'){
+                            Main.procesoManejado = p.nombre;
                             System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
                             fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.NextAvailable(),true);
                             Log l = new Log(r.id_proceso,p.nombre+"-PlacementNextAv",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());
@@ -203,6 +262,7 @@ public class Controlador {
                             System.out.println("Placement con write.");
                         }
                         else{
+                            Main.procesoManejado = p.nombre;
                             System.out.println("frame necesitado = "+frameNecesitado(r.tamano,p).identificador+" del proceso: "+p.nombre+". rset.FirstAvailable() = "+rset.FirstAvailable());
                             fpi.fetch(getIndiceFrameVirtual(frameNecesitado(r.tamano,p)),rset.NextAvailable(),false);
                             Log l = new Log(r.id_proceso,p.nombre+"-PlacementNextAv",indiceEnFisica(frameNecesitado(r.tamano,p)),false,new Date());

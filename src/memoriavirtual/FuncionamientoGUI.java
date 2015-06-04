@@ -513,13 +513,14 @@ public class FuncionamientoGUI extends javax.swing.JFrame {
         for (int i = 0; i < Main.memoria_fisica.size(); i++){
             //System.out.println("i = "+i);
             infoTablaReferencias[i][0] = i;
-            if (Main.memoria_fisica.get(i).esta_ocupado){
-            infoTablaReferencias[i][1]= Main.memoria_fisica.get(i).contenido.nombre;
-            infoTablaReferencias[i][3] = Main.memoria_fisica.get(i).contenido.esta_bloqueado;
-            }
-            else{
+            if (Main.memoria_fisica.get(i).esta_reservado){
                 infoTablaReferencias[i][1]= Main.memoria_fisica.get(i).proceso_reserva;
                 infoTablaReferencias[i][3] = false;
+            }
+            else{
+                infoTablaReferencias[i][1]= Main.memoria_fisica.get(i).contenido.nombre;
+                infoTablaReferencias[i][3] = Main.memoria_fisica.get(i).contenido.esta_bloqueado;
+                
             }
             infoTablaReferencias[i][2] = Main.memoria_fisica.get(i).identificador;
             

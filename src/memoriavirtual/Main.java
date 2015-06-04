@@ -26,6 +26,7 @@ public class Main {
     public static boolean precleaningActivo = false;
     public static MapMemoriaVirtual mVirtual;
     public static MapMemoriaFisica mFisica;
+    public static String procesoManejado;
     
     //Atributos obtenidos de la ventana de configuración
     public static boolean fetch_demand = false; //true si es demand, false si es prepaging

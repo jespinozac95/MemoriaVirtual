@@ -12,7 +12,8 @@ package memoriavirtual;
  */
 public class Clock {
     
-    public int CompararClock(Proceso proceso){        
+    public int CompararClock(Proceso proceso){
+        System.out.println("Entre a hacer clock");
         boolean hayReemplazo=false;
         int posicionActual=Main.puntero_clock;
         if ((Main.replacement_scope_global==true)&&(Main.global_convertido_fijo==false)){  //no se va a utilizar el proceso recibido.
@@ -49,13 +50,15 @@ public class Clock {
         return posicionActual;
         }
         else{
+            System.out.println("Entre a hacer clock local");
             while (hayReemplazo==false){
+                System.out.println("Entre a while");
                 if(posicionActual==(Main.memoria_fisica.size())-1){
                     posicionActual=Main.puntero_clock=0;
-                    if (esApto(Main.memoria_fisica.get(posicionActual).contenido)==false){
+                    if ((!Main.memoria_fisica.get(posicionActual).esta_reservado)&&(esApto(Main.memoria_fisica.get(posicionActual).contenido)==false)){
                         posicionActual++;
                     }
-                    if(proceso.identificador==Main.memoria_fisica.get(posicionActual).contenido.identificador){
+                    if((!Main.memoria_fisica.get(posicionActual).esta_reservado)&&(proceso.identificador==Main.memoria_fisica.get(posicionActual).contenido.identificador)){
                         if (Main.memoria_fisica.get(posicionActual).bitReloj==0){
                             Main.memoria_fisica.get(posicionActual).bitReloj=1;
                             Main.puntero_clock++;
@@ -69,16 +72,22 @@ public class Clock {
                     else{posicionActual++;}
                 }
                 else{
-                    if(proceso.identificador==Main.memoria_fisica.get(posicionActual).contenido.identificador){
-                        if (Main.memoria_fisica.get(posicionActual).bitReloj==0){
-                            Main.memoria_fisica.get(posicionActual).bitReloj=1;
-                            Main.puntero_clock++;
-                            hayReemplazo=true;
+                    if (!Main.memoria_fisica.get(posicionActual).esta_reservado){
+                        if(proceso.identificador==Main.memoria_fisica.get(posicionActual).contenido.identificador){
+                            if (Main.memoria_fisica.get(posicionActual).bitReloj==0){
+                                Main.memoria_fisica.get(posicionActual).bitReloj=1;
+                                Main.puntero_clock++;
+                                hayReemplazo=true;
+                            }
+                            else if (Main.memoria_fisica.get(posicionActual).bitReloj==1){
+                                Main.memoria_fisica.get(posicionActual).bitReloj=0;
+                                posicionActual++;
+                            }
                         }
-                        else if (Main.memoria_fisica.get(posicionActual).bitReloj==1){
-                            Main.memoria_fisica.get(posicionActual).bitReloj=0;
-                            posicionActual++;
-                        }
+                        else {posicionActual++;}
+                    }
+                    else{
+                        posicionActual++;
                     }
                 }  
             }  
@@ -90,10 +99,17 @@ public class Clock {
     public boolean esApto(Proceso p){
         //Main.tama�o_inicial    
         int contador=0;
-        for (int i=0;i<Main.memoria_fisica.size();i++){            
+        for (int i=0;i<Main.memoria_fisica.size();i++){   
+            if (!Main.memoria_fisica.get(i).esta_reservado){
             if (Main.memoria_fisica.get(i).contenido.nombre.equals(p.nombre)){
                 contador++;
             }           
+            }
+            else{
+                if (Main.memoria_fisica.get(i).proceso_reserva.equals(p.nombre)){
+                contador++;
+            }   
+            }
         }
         if (contador <=Main.tamaño_inicial){
             return false;
